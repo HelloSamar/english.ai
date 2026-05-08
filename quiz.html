@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocab Quiz — English Abhyasam</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <style>
+    .quiz-opt { display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;margin-bottom:9px;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--ink-2);font-size:14px;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif;text-align:left; }
+    .quiz-opt:hover:not([disabled]) { border-color:var(--blue);background:var(--blue-bg); }
+    .quiz-opt.correct { border-color:var(--green);background:var(--green-bg);color:var(--green); }
+    .quiz-opt.wrong   { border-color:var(--red);  background:var(--red-bg);  color:var(--red);   }
+    .score-track { height:5px;background:var(--border);border-radius:3px;margin-bottom:22px;overflow:hidden; }
+    .score-track-fill { height:100%;background:var(--blue);border-radius:3px;transition:width 0.35s; }
+    .result-ring { width:130px;height:130px;border-radius:50%;border:5px solid var(--blue);margin:0 auto 20px;display:flex;flex-direction:column;align-items:center;justify-content:center; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-in">
+    <a href="../index.html" class="logo"><img src="../assets/logo.png" alt="English Abhyasam" class="logo-img"/><span class="logo-name">English <span>Abhyasam</span></span></a>
+    <div class="nav-links">
+      <a href="../index.html" class="nl">Home</a><a href="../grammar/index.html" class="nl">Grammar</a>
+      <a href="index.html" class="nl on">Vocabulary</a><a href="../editorials/index.html" class="nl">Editorials</a>
+      <a href="../tests/index.html" class="nl">Mock Tests</a><a href="../journey.html" class="nl">The Journey</a>
+    </div>
+    <a href="../support.html" class="btn-support">Support Us</a>
+    <button class="nav-ham" onclick="document.getElementById('mob-menu').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mob-menu">
+    <a href="../index.html">Home</a><a href="../grammar/index.html">Grammar</a>
+    <a href="index.html" class="on">Vocabulary</a><a href="../editorials/index.html">Editorials</a>
+    <a href="../tests/index.html">Mock Tests</a><a href="../journey.html">The Journey</a>
+    <a href="../support.html">Support Us</a>
+  </div>
+</nav>
+
+<div class="wrap page" style="max-width:680px;margin:0 auto">
+  <div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">Vocabulary</a><span>›</span>Quiz</div>
+
+  <!-- START -->
+  <div id="startScreen">
+    <div style="text-align:center;padding:40px 0">
+      <div style="font-size:52px;margin-bottom:14px">🧠</div>
+      <h1 style="font-size:28px;font-weight:800;letter-spacing:-0.5px;color:var(--ink);margin-bottom:8px">Vocab Quiz</h1>
+      <p style="font-size:15px;color:var(--ink-2);margin-bottom:28px">10 questions · Synonyms, Antonyms & One-Word Substitution</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-blue" onclick="startQuiz('all')">All Topics</button>
+        <button class="btn btn-outline" onclick="startQuiz('syn')">Synonyms</button>
+        <button class="btn btn-outline" onclick="startQuiz('ant')">Antonyms</button>
+        <button class="btn btn-outline" onclick="startQuiz('ows')">One-Word Sub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div style="font-size:13px;color:var(--ink-3);font-weight:500" id="qProgress">Question 1 / 10</div>
+      <div style="font-size:13px;font-weight:700;color:var(--blue)" id="liveScore">Score: 0</div>
+    </div>
+    <div class="score-track"><div class="score-track-fill" id="trackFill" style="width:0%"></div></div>
+    <div class="theory-box">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:8px" id="qType">SYNONYM</div>
+      <div style="font-size:16px;font-weight:700;color:var(--ink);line-height:1.55;margin-bottom:18px" id="qText"></div>
+      <div id="optContainer"></div>
+      <div class="mcq-exp" id="qExp"></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:12px">
+      <button class="btn btn-blue btn-sm" id="nextBtn" onclick="nextQ()" style="display:none">Next →</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultScreen" style="display:none;text-align:center;padding:40px 0">
+    <div class="result-ring">
+      <div style="font-size:36px;font-weight:800;color:var(--blue)" id="finalScore">0</div>
+      <div style="font-size:12px;color:var(--ink-3)">/ 10</div>
+    </div>
+    <h2 style="font-size:24px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-0.5px" id="resultMsg">Well done!</h2>
+    <p style="font-size:14px;color:var(--ink-2);margin-bottom:24px" id="resultSub"></p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="location.reload()">Try Again</button>
+      <a href="synonyms.html" class="btn btn-outline">Review Word List</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-in">
+    <div class="footer-left"><div class="footer-logo">English <span>Abhyasam</span></div><div class="footer-tag">Free and made with love & passion for every aspirant.</div></div>
+    <div class="footer-links">
+      <a href="https://t.me/EnglishAbhyasam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+      <a href="https://www.youtube.com/@EnglishAbhyasam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ✏️ ADD MORE QUESTIONS — copy any object and fill in: type, q, o (options), a (correct index 0-3), exp
+var ALL_Q=[
+  {type:'syn',q:'Synonym of "Abundant":',o:['Scarce','Plentiful','Rare','Meagre'],a:1,exp:'Abundant = present in large quantities. Plentiful is its synonym.'},
+  {type:'ant',q:'Antonym of "Benevolent":',o:['Kind','Generous','Malevolent','Charitable'],a:2,exp:'Benevolent = kind. Malevolent = wishing evil — its antonym.'},
+  {type:'syn',q:'Synonym of "Candid":',o:['Evasive','Devious','Frank','Cunning'],a:2,exp:'Candid = honest and direct. Frank is its synonym.'},
+  {type:'ant',q:'Antonym of "Diligent":',o:['Industrious','Hardworking','Assiduous','Lazy'],a:3,exp:'Diligent = hardworking. Its antonym is Lazy.'},
+  {type:'ows',q:'One word for "Fear of water":',o:['Acrophobia','Hydrophobia','Claustrophobia','Xenophobia'],a:1,exp:'Hydrophobia = fear of water. (Hydro = water, phobia = fear)'},
+  {type:'syn',q:'Synonym of "Haughty":',o:['Humble','Modest','Arrogant','Meek'],a:2,exp:'Haughty = arrogantly superior. Arrogant is its synonym.'},
+  {type:'ant',q:'Antonym of "Frugal":',o:['Thrifty','Economical','Careful','Extravagant'],a:3,exp:'Frugal = thrifty. Its antonym is Extravagant.'},
+  {type:'ows',q:'One word for "One who knows everything":',o:['Omnipotent','Omniscient','Omnivore','Omnipresent'],a:1,exp:'Omniscient = all-knowing (Omni = all, scient = knowing).'},
+  {type:'syn',q:'Synonym of "Garrulous":',o:['Silent','Reserved','Loquacious','Quiet'],a:2,exp:'Garrulous = excessively talkative. Loquacious is its synonym.'},
+  {type:'ant',q:'Antonym of "Eminent":',o:['Famous','Distinguished','Obscure','Prominent'],a:2,exp:'Eminent = well known. Its antonym is Obscure.'},
+  {type:'ows',q:'One word for "One who cannot be corrected":',o:['Insolvent','Incorrigible','Inevitable','Indefensible'],a:1,exp:'Incorrigible = not able to be corrected or improved.'},
+  {type:'syn',q:'Synonym of "Judicious":',o:['Reckless','Imprudent','Wise','Foolish'],a:2,exp:'Judicious = having good judgement. Wise is its synonym.'},
+];
+
+var TYPE_LABEL={syn:'SYNONYM',ant:'ANTONYM',ows:'ONE WORD SUBSTITUTION'};
+var pool=[],idx=0,score=0;
+
+function shuffle(arr){return arr.slice().sort(function(){return Math.random()-0.5})}
+
+function startQuiz(filter){
+  var src=filter==='all'?ALL_Q:ALL_Q.filter(function(q){return q.type===filter});
+  pool=shuffle(src).slice(0,10);
+  idx=0;score=0;
+  document.getElementById('startScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  showQ();
+}
+
+function showQ(){
+  var q=pool[idx];
+  document.getElementById('qProgress').textContent='Question '+(idx+1)+' / '+pool.length;
+  document.getElementById('qType').textContent=TYPE_LABEL[q.type];
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qExp').classList.remove('show');
+  document.getElementById('nextBtn').style.display='none';
+  document.getElementById('trackFill').style.width=(idx/pool.length*100)+'%';
+  var letters=['A','B','C','D'];
+  var oc=document.getElementById('optContainer');
+  oc.innerHTML='';
+  q.o.forEach(function(opt,i){
+    var btn=document.createElement('button');
+    btn.className='quiz-opt';
+    btn.innerHTML='<strong>'+letters[i]+'.</strong> '+opt;
+    btn.onclick=function(){pick(i,q)};
+    oc.appendChild(btn);
+  });
+}
+
+function pick(i,q){
+  document.querySelectorAll('.quiz-opt').forEach(function(b,j){
+    b.disabled=true;
+    if(j===q.a)b.classList.add('correct');
+    else if(j===i&&i!==q.a)b.classList.add('wrong');
+  });
+  if(i===q.a)score++;
+  document.getElementById('liveScore').textContent='Score: '+score;
+  var exp=document.getElementById('qExp');
+  exp.textContent='💡 '+q.exp;
+  exp.classList.add('show');
+  var nb=document.getElementById('nextBtn');
+  nb.style.display='inline-flex';
+  nb.textContent=idx===pool.length-1?'See Result ✓':'Next →';
+}
+
+function nextQ(){
+  idx++;
+  if(idx<pool.length){showQ();}
+  else{showResult();}
+}
+
+function showResult(){
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  document.getElementById('finalScore').textContent=score;
+  var pct=score/pool.length;
+  var msg=pct>=0.8?['Excellent! 🎉','You have a strong vocabulary.']:
+          pct>=0.6?['Good job! 👍','Review the ones you missed and try again.']:
+                   ['Keep practising! 💪','Go through the word lists and retry.'];
+  document.getElementById('resultMsg').textContent=msg[0];
+  document.getElementById('resultSub').textContent=msg[1];
+}
+</script>
+</body>
+</html>

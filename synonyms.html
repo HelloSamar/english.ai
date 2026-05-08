@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Synonyms & Antonyms — English Abhyasam</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <style>
+    .set-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    .set-tab { padding:6px 16px; border-radius:20px; font-size:13px; font-weight:500; cursor:pointer; border:1px solid var(--border); background:var(--white); color:var(--ink-2); transition:all 0.15s; }
+    .set-tab.active { background:var(--blue-bg); color:var(--blue); border-color:var(--blue-b); font-weight:600; }
+    .v-table { width:100%; border-collapse:collapse; }
+    .v-table th { background:var(--bg); color:var(--ink-3); font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+    .v-table td { padding:13px 14px; border-bottom:1px solid var(--border); font-size:13.5px; vertical-align:top; }
+    .v-table tr:last-child td { border-bottom:none; }
+    .v-table tr:hover td { background:rgba(37,99,235,0.02); }
+    .v-word { font-weight:700; color:var(--ink); }
+    .v-syn { color:var(--green); }
+    .v-ant { color:var(--red); }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-in">
+    <a href="../index.html" class="logo"><img src="../assets/logo.png" alt="English Abhyasam" class="logo-img"/><span class="logo-name">English <span>Abhyasam</span></span></a>
+    <div class="nav-links">
+      <a href="../index.html" class="nl">Home</a>
+      <a href="../grammar/index.html" class="nl">Grammar</a>
+      <a href="index.html" class="nl on">Vocabulary</a>
+      <a href="../editorials/index.html" class="nl">Editorials</a>
+      <a href="../tests/index.html" class="nl">Mock Tests</a>
+      <a href="../journey.html" class="nl">The Journey</a>
+    </div>
+    <a href="../support.html" class="btn-support">Support Us</a>
+    <button class="nav-ham" onclick="document.getElementById('mob-menu').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mob-menu">
+    <a href="../index.html">Home</a><a href="../grammar/index.html">Grammar</a>
+    <a href="index.html" class="on">Vocabulary</a><a href="../editorials/index.html">Editorials</a>
+    <a href="../tests/index.html">Mock Tests</a><a href="../journey.html">The Journey</a>
+    <a href="../support.html">Support Us</a>
+  </div>
+</nav>
+
+<div class="wrap page">
+  <div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="index.html">Vocabulary</a><span>›</span>Synonyms & Antonyms</div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px">
+    <div class="sec-head" style="margin-bottom:0">
+      <div class="sec-label">Vocabulary</div>
+      <div class="sec-title">Synonyms & Antonyms</div>
+      <div class="sec-sub">High-frequency words from SSC CGL, CHSL and MTS previous papers.</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <a href="quiz.html" class="btn btn-blue btn-sm">🧠 Practice Quiz</a>
+      <a href="#" class="btn btn-outline btn-sm">⬇ Download PDF</a>
+    </div>
+  </div>
+
+  <div class="set-tabs">
+    <div class="set-tab active" onclick="filterSet('all',this)">All Sets</div>
+    <div class="set-tab" onclick="filterSet('set1',this)">Set 1</div>
+    <div class="set-tab" onclick="filterSet('set2',this)">Set 2</div>
+    <div class="set-tab" onclick="filterSet('set3',this)">Set 3</div>
+  </div>
+
+  <input class="search-input" type="text" id="searchInput" placeholder="🔍  Search a word..." oninput="filterWords()"/>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)">
+    <table class="v-table">
+      <thead>
+        <tr>
+          <th style="width:32px">#</th>
+          <th>Word</th>
+          <th>Synonyms</th>
+          <th>Antonyms</th>
+          <th>Set</th>
+        </tr>
+      </thead>
+      <tbody id="vocabBody">
+        <!-- ✏️ HOW TO ADD A WORD:
+             Copy a <tr> row, change the data-set, word, synonyms, antonyms -->
+        <tr data-set="set1"><td style="color:var(--ink-3);font-size:12px">1</td><td class="v-word">Abundant</td><td class="v-syn">Plentiful, Ample, Copious, Profuse</td><td class="v-ant">Scarce, Rare, Meagre, Deficient</td><td><span class="chip chip-blue">Set 1</span></td></tr>
+        <tr data-set="set1"><td style="color:var(--ink-3);font-size:12px">2</td><td class="v-word">Audacious</td><td class="v-syn">Bold, Daring, Fearless, Intrepid</td><td class="v-ant">Timid, Cowardly, Meek, Cautious</td><td><span class="chip chip-blue">Set 1</span></td></tr>
+        <tr data-set="set1"><td style="color:var(--ink-3);font-size:12px">3</td><td class="v-word">Benevolent</td><td class="v-syn">Kind, Generous, Charitable, Philanthropic</td><td class="v-ant">Malevolent, Cruel, Selfish, Miserly</td><td><span class="chip chip-blue">Set 1</span></td></tr>
+        <tr data-set="set1"><td style="color:var(--ink-3);font-size:12px">4</td><td class="v-word">Candid</td><td class="v-syn">Frank, Honest, Straightforward, Open</td><td class="v-ant">Evasive, Devious, Dishonest, Sly</td><td><span class="chip chip-blue">Set 1</span></td></tr>
+        <tr data-set="set1"><td style="color:var(--ink-3);font-size:12px">5</td><td class="v-word">Diligent</td><td class="v-syn">Hardworking, Industrious, Assiduous, Persistent</td><td class="v-ant">Lazy, Idle, Negligent, Slothful</td><td><span class="chip chip-blue">Set 1</span></td></tr>
+        <tr data-set="set2"><td style="color:var(--ink-3);font-size:12px">6</td><td class="v-word">Eminent</td><td class="v-syn">Famous, Distinguished, Renowned, Prominent</td><td class="v-ant">Obscure, Unknown, Insignificant</td><td><span class="chip chip-green">Set 2</span></td></tr>
+        <tr data-set="set2"><td style="color:var(--ink-3);font-size:12px">7</td><td class="v-word">Frugal</td><td class="v-syn">Thrifty, Economical, Careful, Sparing</td><td class="v-ant">Extravagant, Wasteful, Lavish, Spendthrift</td><td><span class="chip chip-green">Set 2</span></td></tr>
+        <tr data-set="set2"><td style="color:var(--ink-3);font-size:12px">8</td><td class="v-word">Garrulous</td><td class="v-syn">Talkative, Loquacious, Chatty, Verbose</td><td class="v-ant">Taciturn, Quiet, Reserved, Silent</td><td><span class="chip chip-green">Set 2</span></td></tr>
+        <tr data-set="set2"><td style="color:var(--ink-3);font-size:12px">9</td><td class="v-word">Haughty</td><td class="v-syn">Arrogant, Proud, Conceited, Imperious</td><td class="v-ant">Humble, Modest, Meek, Unpretentious</td><td><span class="chip chip-green">Set 2</span></td></tr>
+        <tr data-set="set3"><td style="color:var(--ink-3);font-size:12px">10</td><td class="v-word">Ingenious</td><td class="v-syn">Clever, Creative, Inventive, Resourceful</td><td class="v-ant">Unimaginative, Dull, Uninventive</td><td><span class="chip chip-amber">Set 3</span></td></tr>
+        <tr data-set="set3"><td style="color:var(--ink-3);font-size:12px">11</td><td class="v-word">Judicious</td><td class="v-syn">Wise, Prudent, Sensible, Discerning</td><td class="v-ant">Unwise, Reckless, Imprudent, Foolish</td><td><span class="chip chip-amber">Set 3</span></td></tr>
+        <tr data-set="set3"><td style="color:var(--ink-3);font-size:12px">12</td><td class="v-word">Kindle</td><td class="v-syn">Ignite, Arouse, Stir, Inflame</td><td class="v-ant">Extinguish, Quench, Suppress, Dampen</td><td><span class="chip chip-amber">Set 3</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-in">
+    <div class="footer-left"><div class="footer-logo">English <span>Abhyasam</span></div><div class="footer-tag">Free and made with love & passion for every aspirant.</div></div>
+    <div class="footer-links">
+      <a href="https://t.me/EnglishAbhyasam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+      <a href="https://www.youtube.com/@EnglishAbhyasam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+var activeSet='all';
+function filterSet(set,el){
+  activeSet=set;
+  document.querySelectorAll('.set-tab').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');
+  filterWords();
+}
+function filterWords(){
+  var q=document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('#vocabBody tr').forEach(function(row){
+    var match=(activeSet==='all'||row.dataset.set===activeSet)&&row.textContent.toLowerCase().includes(q);
+    row.style.display=match?'':'none';
+  });
+}
+</script>
+</body>
+</html>

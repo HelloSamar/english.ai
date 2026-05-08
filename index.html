@@ -1,183 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>English Abhyasam — Free English Preparation for Government Exams</title>
-  <meta name="description" content="Free English preparation platform for government exam aspirants. Learn Grammar, Vocabulary and practice Mock Tests for SSC, Banking, Railways and other government exams."/>
-  <link rel="stylesheet" href="assets/style.css"/>
-  <style>
-    .tagline-wrap { min-height: 80px; position: relative; margin-bottom: 20px; }
-    .tagline-item {
-      position: absolute; top: 0; left: 0; width: 100%;
-      opacity: 0; transition: opacity 0.65s ease;
-      font-size: clamp(28px, 3.8vw, 46px);
-      font-weight: 800; line-height: 1.13; letter-spacing: -1px; color: var(--ink);
-    }
-    .tagline-item.active { opacity: 1; position: relative; }
-    .tagline-item .bl { color: var(--blue); }
-    .sc {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 16px; padding: 26px 22px;
-      box-shadow: var(--sh); transition: all 0.18s;
-      text-decoration: none; color: inherit; display: block;
-    }
-    .sc:hover { border-color: var(--blue); box-shadow: var(--sh-md); transform: translateY(-3px); }
-    .sc-icon { font-size: 30px; margin-bottom: 12px; }
-    .sc-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 5px; letter-spacing: -0.2px; }
-    .sc-sub { font-size: 13px; color: var(--ink-2); line-height: 1.6; margin-bottom: 12px; }
-    .sc-cta { font-size: 13px; font-weight: 600; color: var(--blue); }
-  </style>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulary — English Abhyasam</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
 </head>
 <body>
-
 <nav>
   <div class="nav-in">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.png" alt="English Abhyasam" class="logo-img"/>
-      <span class="logo-name">English <span>Abhyasam</span></span>
-    </a>
+    <a href="../index.html" class="logo"><img src="../assets/logo.png" alt="English Abhyasam" class="logo-img"/><span class="logo-name">English <span>Abhyasam</span></span></a>
     <div class="nav-links">
-      <a href="index.html" class="nl on">Home</a>
-      <a href="grammar/index.html" class="nl">Grammar</a>
-      <a href="vocab/index.html" class="nl">Vocabulary</a>
-      <a href="editorials/index.html" class="nl">Editorials</a>
-      <a href="tests/index.html" class="nl">Mock Tests</a>
-      <a href="journey.html" class="nl">The Journey</a>
+      <a href="../index.html" class="nl">Home</a>
+      <a href="../grammar/index.html" class="nl">Grammar</a>
+      <a href="index.html" class="nl on">Vocabulary</a>
+      <a href="../editorials/index.html" class="nl">Editorials</a>
+      <a href="../tests/index.html" class="nl">Mock Tests</a>
+      <a href="../journey.html" class="nl">The Journey</a>
     </div>
-    <a href="support.html" class="btn-support">Support Us</a>
-    <button class="nav-ham" onclick="document.getElementById('mob-menu').classList.toggle('open')" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="../support.html" class="btn-support">Support Us</a>
+    <button class="nav-ham" onclick="document.getElementById('mob-menu').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mob-menu">
-    <a href="index.html" class="on">Home</a>
-    <a href="grammar/index.html">Grammar</a>
-    <a href="vocab/index.html">Vocabulary</a>
-    <a href="editorials/index.html">Editorials</a>
-    <a href="tests/index.html">Mock Tests</a>
-    <a href="journey.html">The Journey</a>
-    <a href="support.html">Support Us</a>
+    <a href="../index.html">Home</a><a href="../grammar/index.html">Grammar</a>
+    <a href="index.html" class="on">Vocabulary</a><a href="../editorials/index.html">Editorials</a>
+    <a href="../tests/index.html">Mock Tests</a><a href="../journey.html">The Journey</a>
+    <a href="../support.html">Support Us</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section style="padding: 80px 0 64px;">
-  <div class="wrap">
-    <div style="display:inline-flex;align-items:center;gap:7px;background:var(--white);border:1px solid var(--border);border-radius:30px;padding:5px 14px 5px 10px;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:28px;box-shadow:var(--sh)">
-      <div style="width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 3px #DCFCE7;flex-shrink:0"></div>
-      Free · Updated regularly · No signup needed
-    </div>
-
-    <div class="tagline-wrap" id="tagline-wrap">
-      <div class="tagline-item active">Where <span class="bl">English</span> meets dedication — welcome to <span class="bl">Abhyasam</span>.</div>
-      <div class="tagline-item">Master <span class="bl">English</span>. Own the exam. This is <span class="bl">Abhyasam</span>.</div>
-      <div class="tagline-item"><span class="bl">Abhyasam</span> — because great <span class="bl">English</span> should be free.</div>
-      <div class="tagline-item">Your <span class="bl">English</span> edge starts here. It starts at <span class="bl">Abhyasam</span>.</div>
-      <div class="tagline-item">One platform. One mission. <span class="bl">English</span> × <span class="bl">Abhyasam</span>.</div>
-      <div class="tagline-item"><span class="bl">Abhyasam</span> — the home every <span class="bl">English</span> aspirant deserves.</div>
-    </div>
-
-    <p style="font-size:15.5px;color:var(--ink-2);line-height:1.8;max-width:580px;margin-bottom:32px;">
-      Free English preparation platform for government exam aspirants. Learn Grammar, build Vocabulary & practise with Mock Tests — for SSC, Banking, Railways and all other government exams.
-    </p>
-
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:48px">
-      <a href="grammar/index.html" class="btn btn-blue">Start Learning →</a>
-      <a href="tests/index.html" class="btn btn-outline">Take a Mock Test</a>
-      <a href="https://t.me/EnglishAbhyasam" target="_blank" class="btn btn-ghost" style="gap:6px">
-        <svg viewBox="0 0 24 24" fill="currentColor" style="width:15px;height:15px;flex-shrink:0"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        Join on Telegram
-      </a>
-    </div>
-
-    <div class="stats-strip">
-      <div class="stat-cell"><div class="stat-n">20+</div><div class="stat-l">Grammar Topics</div></div>
-      <div class="stat-cell"><div class="stat-n">500+</div><div class="stat-l">Vocab Words</div></div>
-      <div class="stat-cell"><div class="stat-n">3+</div><div class="stat-l">Mock Tests</div></div>
-      <div class="stat-cell"><div class="stat-n">100%</div><div class="stat-l">Free</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTIONS -->
-<div class="wrap" style="padding-bottom: 80px;">
-
-  <div style="margin-bottom: 48px;">
-    <div class="sec-head" style="margin-bottom: 20px;">
-      <div class="sec-label">What's Inside</div>
-      <div class="sec-title">Everything you need. In one place.</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;">
-      <a href="grammar/index.html" class="sc">
-        <div class="sc-icon">📚</div>
-        <div class="sc-title">Grammar</div>
-        <div class="sc-sub">Chapter-wise theory, MCQs, PYQs and progress tracking.</div>
-        <div class="sc-cta">Explore chapters →</div>
-      </a>
-      <a href="vocab/index.html" class="sc">
-        <div class="sc-icon">🔤</div>
-        <div class="sc-title">Vocabulary</div>
-        <div class="sc-sub">Synonyms, Antonyms, One Word Substitution, Idioms & Quiz.</div>
-        <div class="sc-cta">Build vocab →</div>
-      </a>
-      <a href="editorials/index.html" class="sc">
-        <div class="sc-icon">📰</div>
-        <div class="sc-title">Editorials</div>
-        <div class="sc-sub">Reading comprehension passages and editorial analysis.</div>
-        <div class="sc-cta">Read editorials →</div>
-      </a>
-      <a href="tests/index.html" class="sc">
-        <div class="sc-icon">📝</div>
-        <div class="sc-title">Mock Tests</div>
-        <div class="sc-sub">Timed SSC-pattern tests with instant results and explanations.</div>
-        <div class="sc-cta">Take a test →</div>
-      </a>
-    </div>
+<div class="wrap page">
+  <div class="breadcrumb"><a href="../index.html">Home</a><span>›</span>Vocabulary</div>
+  <div class="sec-head">
+    <div class="sec-label">Vocabulary</div>
+    <div class="sec-title">Words that actually appear in exams.</div>
+    <div class="sec-sub">Curated lists from SSC CGL, CHSL, MTS and Railway previous papers — not random dumps.</div>
   </div>
 
-  <!-- What's New -->
-  <div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px;box-shadow:var(--sh);">
-    <div class="sec-label" style="margin-bottom:16px">What's New</div>
-    <div class="update-item"><div class="u-dot"></div><div><div class="u-date">May 7</div><div class="u-text">Editorials section launched — first article live 📰</div></div></div>
-    <div class="update-item"><div class="u-dot"></div><div><div class="u-date">May 6</div><div class="u-text">Tenses – Past Perfect added (Theory + MCQs)</div></div></div>
-    <div class="update-item"><div class="u-dot"></div><div><div class="u-date">May 4</div><div class="u-text">Synonyms – Set 3 added (50 words)</div></div></div>
-    <div class="update-item"><div class="u-dot"></div><div><div class="u-date">May 2</div><div class="u-text">🎉 Mock Test 1 is live — SSC CGL pattern, 25 questions</div></div></div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <a href="synonyms.html" class="g-row">
+      <div class="g-icon" style="background:#EEF3FF">🔄</div>
+      <div class="g-body">
+        <div class="g-title">Synonyms & Antonyms</div>
+        <div class="g-sub">200+ words · 3 sets · Searchable table with PDF download</div>
+        <div class="g-chips"><span class="chip chip-blue">List</span><span class="chip chip-green">Searchable</span></div>
+      </div>
+      <div class="g-arrow">→</div>
+    </a>
+    <a href="one-word.html" class="g-row">
+      <div class="g-icon" style="background:#F0FDF4">📝</div>
+      <div class="g-body">
+        <div class="g-title">One Word Substitution</div>
+        <div class="g-sub">150+ words · 2 sets · High-frequency SSC words</div>
+        <div class="g-chips"><span class="chip chip-blue">List</span><span class="chip chip-green">Searchable</span></div>
+      </div>
+      <div class="g-arrow">→</div>
+    </a>
+    <a href="idioms.html" class="g-row">
+      <div class="g-icon" style="background:#FFFBEB">💬</div>
+      <div class="g-body">
+        <div class="g-title">Idioms & Phrases</div>
+        <div class="g-sub">100+ entries · Meaning + usage examples</div>
+        <div class="g-chips"><span class="chip chip-blue">List</span><span class="chip chip-amber">Examples</span></div>
+      </div>
+      <div class="g-arrow">→</div>
+    </a>
+    <a href="quiz.html" class="g-row" style="background:var(--blue);border-color:var(--blue)">
+      <div class="g-icon" style="background:rgba(255,255,255,0.15)">🧠</div>
+      <div class="g-body">
+        <div class="g-title" style="color:#fff">Vocab Quiz</div>
+        <div class="g-sub" style="color:rgba(255,255,255,0.65)">Randomised · 10 questions · Synonyms, Antonyms & OWS</div>
+      </div>
+      <div class="g-arrow" style="color:rgba(255,255,255,0.5)">→</div>
+    </a>
   </div>
-
 </div>
 
 <footer>
   <div class="footer-in">
-    <div class="footer-left">
-      <div class="footer-logo">English <span>Abhyasam</span></div>
-      <div class="footer-tag">Free and made with love & passion for every aspirant.</div>
-    </div>
+    <div class="footer-left"><div class="footer-logo">English <span>Abhyasam</span></div><div class="footer-tag">Free and made with love & passion for every aspirant.</div></div>
     <div class="footer-links">
-      <a href="https://t.me/EnglishAbhyasam" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        Telegram
-      </a>
-      <a href="https://www.youtube.com/@EnglishAbhyasam" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        YouTube
-      </a>
-      <a href="support.html">Support Us</a>
+      <a href="https://t.me/EnglishAbhyasam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
+      <a href="https://www.youtube.com/@EnglishAbhyasam" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube</a>
     </div>
   </div>
 </footer>
-
-<script>
-(function(){
-  const items = document.querySelectorAll('.tagline-item');
-  let cur = 0;
-  if(items.length<=1) return;
-  setInterval(function(){
-    items[cur].classList.remove('active');
-    cur = (cur+1) % items.length;
-    items[cur].classList.add('active');
-  }, 3500);
-})();
-</script>
 </body>
 </html>
