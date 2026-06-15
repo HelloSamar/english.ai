@@ -11,7 +11,7 @@ The app is being built as a focused revision workspace for government exam aspir
 - English
 - Mathematics
 - Reasoning
-- Computer Mode
+- Computer
 
 ## Section plan
 
@@ -50,7 +50,7 @@ For English entries, the app keeps the existing revision workflow: Hindi meaning
 
 Users paste raw content, question text, or notes. The app converts it into cleaner SSC CGL/CHSL revision structure.
 
-### Computer Mode
+### Computer
 
 Users paste computer-awareness notes and organise them for exam revision.
 
