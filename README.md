@@ -34,7 +34,7 @@ Generate entries for the words and phrases you miss in practice sets, previous-y
 
 The app is designed around common vocabulary needs in government exams:
 
-- OWS
+- One Word Substitution
 - Idioms
 - Antonyms and synonyms
 - Spellings
