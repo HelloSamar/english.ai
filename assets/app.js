@@ -31,13 +31,13 @@ const sections = [
   ['computer', 'Computer']
 ];
 
-const englishModeData = {
-  'One Word Substitution': { label: 'One Word Substitution word/phrase', samples: ['philanthropist', 'omniscient', 'bibliophile', 'benevolent'] },
-  'Idioms': { label: 'Idiom or phrase', samples: ['break the ice', 'hit the nail on the head', 'once in a blue moon'] },
-  'Antonyms & Synonyms': { label: 'Word for antonyms and synonyms', samples: ['diligent', 'prudent', 'mitigate', 'obsolete'] },
-  'Spellings': { label: 'Spelling word', samples: ['accommodation', 'committee', 'necessary', 'separate'] },
-  'Grammar': { label: 'Grammar topic or rule', samples: ['subject verb agreement', 'tenses', 'active voice', 'direct speech'] }
-};
+const englishModes = [
+  'One Word Substitution',
+  'Idioms',
+  'Antonyms & Synonyms',
+  'Spellings',
+  'Grammar'
+];
 
 const builtIn = {
   benevolent: { meaning: 'दयालु, परोपकारी', syn: ['kind', 'charitable'], ant: ['cruel', 'selfish'], ex: 'A benevolent officer helped the villagers during the flood.', hi: 'एक दयालु अधिकारी ने बाढ़ के समय ग्रामीणों की मदद की।' },
@@ -62,7 +62,6 @@ function init() {
   renderNav();
   bindEvents();
   renderEnglishModes();
-  renderSamples();
   renderSyllabus();
   renderHistory();
   switchSection(active);
@@ -102,7 +101,8 @@ function normalizeEnglishMode(mode) {
     'Anto Syno': 'Antonyms & Synonyms',
     'Antonyms and synonyms': 'Antonyms & Synonyms'
   };
-  return englishModeData[mode] ? mode : (aliases[mode] || 'Antonyms & Synonyms');
+  if (englishModes.includes(mode)) return mode;
+  return aliases[mode] || 'Antonyms & Synonyms';
 }
 
 function renderNav() {
@@ -136,7 +136,7 @@ function renderEnglishModes() {
   englishMode = normalizeEnglishMode(englishMode);
   const box = $('englishModes');
   box.innerHTML = '';
-  Object.keys(englishModeData).forEach(mode => {
+  englishModes.forEach(mode => {
     const chip = document.createElement('span');
     chip.className = 'chip' + (mode === englishMode ? ' active' : '');
     chip.textContent = mode;
@@ -144,23 +144,7 @@ function renderEnglishModes() {
       englishMode = mode;
       store.set('english-mode', mode);
       renderEnglishModes();
-      renderSamples();
-      $('engLabel').textContent = englishModeData[mode].label;
     };
-    box.appendChild(chip);
-  });
-  $('engLabel').textContent = englishModeData[englishMode].label;
-}
-
-function renderSamples() {
-  englishMode = normalizeEnglishMode(englishMode);
-  const box = $('engSamples');
-  box.innerHTML = '';
-  englishModeData[englishMode].samples.forEach(sample => {
-    const chip = document.createElement('span');
-    chip.className = 'chip';
-    chip.textContent = sample;
-    chip.onclick = () => { $('engInput').value = sample; generateEnglish(); };
     box.appendChild(chip);
   });
 }
