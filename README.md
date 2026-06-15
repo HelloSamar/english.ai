@@ -56,13 +56,7 @@ cd ..
 firebase deploy --only functions
 ```
 
-Optional model override:
-
-```bash
-firebase functions:config:set openai.model="gpt-5.5"
-```
-
-The function currently defaults to `gpt-5.5` unless `OPENAI_MODEL` is available in the runtime environment.
+The function currently defaults to `gpt-5.5`. To use another OpenAI model, edit the `model` fallback in `functions/index.js` before deploying.
 
 ## Who it is for
 
