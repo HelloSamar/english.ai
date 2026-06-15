@@ -6,240 +6,53 @@
 <title>abhyasam.ai - SSC CGL & CHSL Study Helper</title>
 <style>
 :root{
-  --bg:#101522;
-  --bg2:#172033;
-  --surface:rgba(255,255,255,.08);
-  --surface-strong:rgba(255,255,255,.12);
-  --card:rgba(255,255,255,.90);
-  --card-soft:rgba(255,255,255,.74);
-  --ink:#111827;
-  --ink-on-dark:#f8fafc;
-  --muted:#64748b;
-  --muted-on-dark:#cbd5e1;
-  --line:rgba(255,255,255,.16);
-  --line-card:rgba(15,23,42,.12);
-  --accent:#2563eb;
-  --accent-strong:#1d4ed8;
-  --accent-soft:rgba(37,99,235,.10);
-  --shadow:0 24px 70px rgba(2,6,23,.24);
+  --bg:#0f1411;--bg2:#17211a;--ink:#f8fafc;--text:#111827;--muted:#647064;
+  --panel:rgba(255,255,255,.90);--panel2:rgba(255,255,255,.76);--glass:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.16);--line2:rgba(17,24,39,.12);
+  --accent:#16a34a;--accent2:#15803d;--accentSoft:rgba(22,163,74,.12);
+  --shadow:0 24px 70px rgba(0,0,0,.28);
 }
 body[data-theme="light"]{
-  --bg:#f6f7fb;
-  --bg2:#e9edf5;
-  --surface:rgba(255,255,255,.72);
-  --surface-strong:rgba(255,255,255,.90);
-  --card:rgba(255,255,255,.88);
-  --card-soft:rgba(255,255,255,.68);
-  --ink:#111827;
-  --ink-on-dark:#111827;
-  --muted:#64748b;
-  --muted-on-dark:#475569;
-  --line:rgba(15,23,42,.12);
-  --line-card:rgba(15,23,42,.10);
-  --shadow:0 18px 45px rgba(15,23,42,.10);
+  --bg:#f7faf7;--bg2:#eaf4ec;--ink:#102016;--text:#111827;--muted:#5b6b61;
+  --panel:rgba(255,255,255,.88);--panel2:rgba(255,255,255,.72);--glass:rgba(255,255,255,.72);
+  --line:rgba(17,24,39,.12);--line2:rgba(17,24,39,.10);--shadow:0 18px 45px rgba(15,23,42,.10);
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(circle at 10% 0,rgba(255,255,255,.08),transparent 25rem),
-    radial-gradient(circle at 95% 8%,rgba(37,99,235,.12),transparent 24rem),
-    linear-gradient(135deg,var(--bg),var(--bg2));
-  color:var(--ink-on-dark);
-}
-body[data-theme="light"]{color:var(--ink)}
-.wrap{width:min(1180px,94vw);margin:auto;padding:22px 0 46px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
-.brand{font-size:1.35rem;font-weight:950;letter-spacing:-.04em;color:var(--ink-on-dark)}
-body[data-theme="light"] .brand{color:var(--ink)}
-.nav{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
-.nav button,.icon-btn{
-  border:1px solid var(--line);
-  background:var(--surface);
-  color:var(--ink-on-dark);
-  border-radius:999px;
-  padding:9px 13px;
-  font-weight:850;
-  cursor:pointer;
-  backdrop-filter:blur(14px);
-}
-body[data-theme="light"] .nav button,
-body[data-theme="light"] .icon-btn{color:var(--ink);background:var(--surface-strong)}
-.nav button.active{
-  background:var(--accent);
-  border-color:var(--accent);
-  color:#fff;
-}
-.icon-btn{width:40px;height:40px;padding:0;font-size:1rem}
-.hero,.panel{
-  border:1px solid var(--line);
-  background:var(--card);
-  backdrop-filter:blur(18px);
-  border-radius:26px;
-  box-shadow:var(--shadow);
-  color:var(--ink);
-}
-.hero{padding:26px;margin-bottom:16px}
-.panel{padding:20px;margin-bottom:16px}
-h1{margin:0 0 8px;font-size:clamp(2rem,4vw,4rem);line-height:1.03;letter-spacing:-.06em}
-.lead{margin:0;color:var(--muted);max-width:850px;font-weight:650}
-.hidden{display:none!important}
-.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-h2{margin:0;font-size:1.5rem;letter-spacing:-.03em}
-.sub{margin:4px 0 0;color:var(--muted);font-weight:650}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:820px){.grid,.grid3{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.nav{justify-content:flex-start}}
-label{display:block;font-weight:900;margin-bottom:7px}
-input,select,textarea{
-  width:100%;
-  border:1px solid var(--line-card);
-  border-radius:16px;
-  padding:12px 13px;
-  font:inherit;
-  background:rgba(255,255,255,.84);
-  color:#111827;
-  outline:none;
-}
-body[data-theme="dark"] input,
-body[data-theme="dark"] select,
-body[data-theme="dark"] textarea{background:rgba(255,255,255,.86)}
-textarea{min-height:150px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
-.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
-button.primary,.row button{
-  border:0;
-  border-radius:999px;
-  padding:10px 15px;
-  font-weight:900;
-  cursor:pointer;
-  background:var(--accent);
-  color:#fff;
-}
-.row button.secondary{
-  background:rgba(255,255,255,.74);
-  color:#111827;
-  border:1px solid var(--line-card);
-}
-button:hover{filter:brightness(.98)}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.chip{
-  border:1px solid var(--line-card);
-  background:rgba(255,255,255,.64);
-  border-radius:999px;
-  padding:7px 11px;
-  font-weight:850;
-  cursor:pointer;
-}
-.chip.active{background:#111827;color:#fff;border-color:#111827}
-.box{
-  border:1px solid var(--line-card);
-  background:var(--card-soft);
-  border-radius:18px;
-  padding:15px;
-  min-height:92px;
-}
-.small{font-size:.9rem;color:var(--muted);font-weight:650}
-.out-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:950;margin-bottom:6px}
-.out{white-space:pre-wrap;font-weight:750}
-.history{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}
-.card{background:var(--card-soft);border:1px solid var(--line-card);border-radius:18px;padding:14px}
-.card h3{margin:0 0 6px;font-size:1rem}
-.tag{
-  display:inline-block;
-  background:var(--accent-soft);
-  color:var(--accent-strong);
-  border:1px solid rgba(37,99,235,.18);
-  padding:3px 8px;
-  border-radius:999px;
-  font-size:.78rem;
-  font-weight:900;
-  margin-bottom:8px;
-}
-.syllabus-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-card)}
-.syllabus-row input{width:auto}
-.progress{font-weight:950;color:var(--accent-strong)}
-.print-title{display:none}
-@media print{
-  body{background:#fff;color:#111}
-  .top,.hero,.no-print{display:none!important}
-  .panel{box-shadow:none;border:0;background:#fff;break-inside:avoid}
-  .print-title{display:block;color:#111}
-  .history{display:block}
-  .card{break-inside:avoid;margin:0 0 12px;background:#fff;border:1px solid #ddd}
-}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 92% 0,rgba(22,163,74,.16),transparent 22rem),linear-gradient(135deg,var(--bg),var(--bg2));color:var(--ink)}
+.wrap{width:min(1180px,94vw);margin:auto;padding:22px 0 46px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}.brand{font-size:1.35rem;font-weight:950;letter-spacing:-.04em}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav button,.icon-btn{border:1px solid var(--line);background:var(--glass);color:var(--ink);border-radius:999px;padding:9px 13px;font-weight:850;cursor:pointer;backdrop-filter:blur(14px)}.nav button.active{background:var(--accent);border-color:var(--accent);color:#fff}.icon-btn{width:40px;height:40px;padding:0}.hero,.panel{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(18px);border-radius:26px;box-shadow:var(--shadow);color:var(--text)}.hero{padding:26px;margin-bottom:16px}.panel{padding:20px;margin-bottom:16px}h1{margin:0 0 8px;font-size:clamp(2rem,4vw,4rem);line-height:1.03;letter-spacing:-.06em}h2{margin:0;font-size:1.5rem;letter-spacing:-.03em}.lead,.sub,.small{color:var(--muted);font-weight:650}.hidden{display:none!important}.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.nav{justify-content:flex-start}}
+label{display:block;font-weight:900;margin-bottom:7px}input,textarea,select{width:100%;border:1px solid var(--line2);border-radius:16px;padding:12px 13px;font:inherit;background:rgba(255,255,255,.86);color:#111827;outline:none}textarea{min-height:150px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accentSoft)}.row,.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}button,.row button{border:0;border-radius:999px;padding:10px 15px;font-weight:900;cursor:pointer;background:var(--accent);color:#fff}.row button.secondary{background:rgba(255,255,255,.74);color:#111827;border:1px solid var(--line2)}button:hover{filter:brightness(.98)}.chip{border:1px solid var(--line2);background:rgba(255,255,255,.70);border-radius:999px;padding:7px 11px;font-weight:850;cursor:pointer}.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}.box,.card{border:1px solid var(--line2);background:var(--panel2);border-radius:18px;padding:15px}.out-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:950;margin-bottom:6px}.out{white-space:pre-wrap;font-weight:750}.history{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:12px}.card h3{margin:0 0 6px;font-size:1rem}.tag{display:inline-block;background:var(--accentSoft);color:var(--accent2);border:1px solid rgba(22,163,74,.22);padding:3px 8px;border-radius:999px;font-size:.78rem;font-weight:900;margin-bottom:8px}.syllabus-row{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line2)}.syllabus-row input{width:auto}.progress{font-weight:950;color:var(--accent2)}.print-title{display:none}@media print{body{background:#fff;color:#111}.top,.hero,.no-print{display:none!important}.panel{box-shadow:none;border:0;background:#fff;break-inside:avoid}.print-title{display:block}.history{display:block}.card{break-inside:avoid;margin:0 0 12px;background:#fff;border:1px solid #ddd}}
 </style>
 </head>
 <body data-theme="dark">
 <div class="wrap">
-<header class="top">
-  <div class="brand">abhyasam.ai</div>
-  <nav class="nav" id="mainNav"></nav>
-</header>
-<section class="hero">
-  <h1>SSC CGL & CHSL study helper.</h1>
-  <p class="lead">Organise syllabus progress, convert pasted notes into exam-focused revision data, and build English vocabulary lists with Hindi support.</p>
-</section>
-<section id="syllabus" class="panel section">
-  <div class="section-head"><div><h2>Syllabus</h2><p class="sub">Blank tracker for now. Add topics and tick them when completed.</p></div><div class="progress" id="syllabusProgress">0 / 0 completed</div></div>
-  <div class="grid no-print"><div><label>Add syllabus topic</label><input id="syllabusInput" placeholder="Example: History - Modern India"><div class="row"><button onclick="addSyllabus()">Add topic</button><button class="secondary" onclick="clearSyllabus()">Clear syllabus</button></div></div><div class="box"><div class="out-title">How this will work</div><div class="out">Later this section can hold the full SSC CGL/CHSL syllabus as a checklist. For now, you can create your own list and mark completed topics.</div></div></div>
-  <div id="syllabusList" class="box" style="margin-top:14px"></div>
-</section>
-<section id="general-studies" class="panel section hidden">
-  <div class="section-head"><div><h2>General Studies</h2><p class="sub">Paste any GS note. It will be organised only from SSC CGL/CHSL perspective.</p></div></div>
-  <div class="grid"><div class="no-print"><label>Paste GS content</label><textarea id="gsPaste" placeholder="Paste facts, notes, PYQ explanation, current affairs, etc."></textarea><div class="row"><button onclick="analysePaste('gs')">Organise GS note</button><button class="secondary" onclick="saveCurrent('gs')">Save</button></div></div><div class="box" id="gsOut"><div class="out-title">Output format</div><div class="out">Subject - title name\nSubject can be Geography, History, Science, Polity, Economics, Environment, Static GK, or Current Affairs.</div></div></div>
-</section>
-<section id="english" class="panel section hidden">
-  <div class="section-head"><div><h2>English</h2><p class="sub">Choose a category and generate Hindi-supported entries for revision.</p></div></div>
-  <div class="chips no-print" id="englishModes"></div>
-  <div class="grid" style="margin-top:14px"><div class="no-print"><label id="engLabel">Word or phrase</label><input id="engInput" placeholder="Example: benevolent"><div class="chips" id="engSamples"></div><div class="row"><button onclick="generateEnglish()">Generate</button><button class="secondary" onclick="saveCurrent('english')">Save</button><button class="secondary" onclick="clearEnglish()">Clear</button></div><p class="small">For the most accurate AI-quality result later, this section can be connected to a backend. Current version uses built-in examples and browser lookup helpers.</p></div><div class="grid" id="engOut"></div></div>
-</section>
-<section id="mathematics" class="panel section hidden">
-  <div class="section-head"><div><h2>Mathematics</h2><p class="sub">Paste a question, formula, or solution. Get a cleaner SSC CGL/CHSL revision structure.</p></div></div>
-  <div class="grid"><div class="no-print"><label>Paste mathematics content</label><textarea id="mathPaste" placeholder="Paste arithmetic/algebra/geometry/trigonometry/mensuration notes or question."></textarea><div class="row"><button onclick="analysePaste('math')">Organise Math note</button><button class="secondary" onclick="saveCurrent('math')">Save</button></div></div><div class="box" id="mathOut"></div></div>
-</section>
-<section id="reasoning" class="panel section hidden">
-  <div class="section-head"><div><h2>Reasoning</h2><p class="sub">Paste reasoning content and convert it into exam-focused revision notes.</p></div></div>
-  <div class="grid"><div class="no-print"><label>Paste reasoning content</label><textarea id="reasonPaste" placeholder="Paste analogy, series, coding-decoding, direction, blood relation, syllogism, etc."></textarea><div class="row"><button onclick="analysePaste('reason')">Organise Reasoning note</button><button class="secondary" onclick="saveCurrent('reason')">Save</button></div></div><div class="box" id="reasonOut"></div></div>
-</section>
-<section id="computer" class="panel section hidden">
-  <div class="section-head"><div><h2>Computer</h2><p class="sub">Paste computer-awareness notes and organise them for exam revision.</p></div></div>
-  <div class="grid"><div class="no-print"><label>Paste computer content</label><textarea id="computerPaste" placeholder="Paste notes on MS Office, internet, hardware, software, shortcuts, cyber security, etc."></textarea><div class="row"><button onclick="analysePaste('computer')">Organise Computer note</button><button class="secondary" onclick="saveCurrent('computer')">Save</button></div></div><div class="box" id="computerOut"></div></div>
-</section>
-<section class="panel" id="savedPanel">
-  <h2 class="print-title">abhyasam.ai saved revision list</h2>
-  <div class="section-head no-print"><div><h2>Saved revision list</h2><p class="sub">Saved locally in this browser. Cross-device sync will be enforced later.</p></div><div class="row"><button onclick="printPDF()">Download PDF</button><button class="secondary" onclick="downloadJSON()">Download JSON</button><button class="secondary" onclick="clearSaved()">Clear saved</button></div></div>
-  <div id="history" class="history"></div>
-</section>
+<header class="top"><div class="brand">abhyasam.ai</div><nav class="nav" id="mainNav"></nav></header>
+<section class="hero"><h1>SSC CGL & CHSL study helper.</h1><p class="lead">Organise syllabus progress, convert pasted notes into exam-focused revision data, and build English vocabulary lists with Hindi support.</p></section>
+<section id="syllabus" class="panel section"><div class="section-head"><div><h2>Syllabus</h2><p class="sub">Blank tracker for now. Add topics and tick them when completed.</p></div><div class="progress" id="syllabusProgress">0 / 0 completed</div></div><div class="grid no-print"><div><label>Add syllabus topic</label><input id="syllabusInput" placeholder="Example: History - Modern India"><div class="row"><button onclick="addSyllabus()">Add topic</button><button class="secondary" onclick="clearSyllabus()">Clear syllabus</button></div></div><div class="box"><div class="out-title">How this will work</div><div class="out">Later this section can hold the full SSC CGL/CHSL syllabus as a checklist. For now, create your own list and mark completed topics.</div></div></div><div id="syllabusList" class="box" style="margin-top:14px"></div></section>
+<section id="general-studies" class="panel section hidden"><div class="section-head"><div><h2>General Studies</h2><p class="sub">Paste any GS note. It will be organised only from SSC CGL/CHSL perspective.</p></div></div><div class="grid"><div class="no-print"><label>Paste GS content</label><textarea id="gsPaste" placeholder="Paste facts, notes, PYQ explanation, current affairs, etc."></textarea><div class="row"><button onclick="analysePaste('gs')">Organise GS note</button><button class="secondary" onclick="saveCurrent()">Save</button></div></div><div class="box" id="gsOut"><div class="out-title">Output format</div><div class="out">Subject - title name\nSubject can be Geography, History, Science, Polity, Economics, Environment, Static GK, or Current Affairs.</div></div></div></section>
+<section id="english" class="panel section hidden"><div class="section-head"><div><h2>English</h2><p class="sub">Choose a category and generate Hindi-supported entries for revision.</p></div></div><div class="chips no-print" id="englishModes"></div><div class="grid" style="margin-top:14px"><div class="no-print"><label id="engLabel">Word or phrase</label><input id="engInput" placeholder="Example: benevolent"><div class="chips" id="engSamples"></div><div class="row"><button onclick="generateEnglish()">Generate</button><button class="secondary" onclick="saveCurrent()">Save</button><button class="secondary" onclick="clearEnglish()">Clear</button></div><p class="small">Current version uses built-in examples and browser lookup helpers. A backend can improve AI-quality answers later.</p></div><div class="grid" id="engOut"></div></div></section>
+<section id="mathematics" class="panel section hidden"><div class="section-head"><div><h2>Mathematics</h2><p class="sub">Paste a question, formula, or solution. Get a cleaner SSC CGL/CHSL revision structure.</p></div></div><div class="grid"><div class="no-print"><label>Paste mathematics content</label><textarea id="mathPaste" placeholder="Paste arithmetic/algebra/geometry/trigonometry/mensuration notes or question."></textarea><div class="row"><button onclick="analysePaste('math')">Organise Math note</button><button class="secondary" onclick="saveCurrent()">Save</button></div></div><div class="box" id="mathOut"></div></div></section>
+<section id="reasoning" class="panel section hidden"><div class="section-head"><div><h2>Reasoning</h2><p class="sub">Paste reasoning content and convert it into exam-focused revision notes.</p></div></div><div class="grid"><div class="no-print"><label>Paste reasoning content</label><textarea id="reasonPaste" placeholder="Paste analogy, series, coding-decoding, direction, blood relation, syllogism, etc."></textarea><div class="row"><button onclick="analysePaste('reason')">Organise Reasoning note</button><button class="secondary" onclick="saveCurrent()">Save</button></div></div><div class="box" id="reasonOut"></div></div></section>
+<section id="computer" class="panel section hidden"><div class="section-head"><div><h2>Computer</h2><p class="sub">Paste computer-awareness notes and organise them for exam revision.</p></div></div><div class="grid"><div class="no-print"><label>Paste computer content</label><textarea id="computerPaste" placeholder="Paste notes on MS Office, internet, hardware, software, shortcuts, cyber security, etc."></textarea><div class="row"><button onclick="analysePaste('computer')">Organise Computer note</button><button class="secondary" onclick="saveCurrent()">Save</button></div></div><div class="box" id="computerOut"></div></div></section>
+<section class="panel" id="savedPanel"><h2 class="print-title">abhyasam.ai saved revision list</h2><div class="section-head no-print"><div><h2>Saved revision list</h2><p class="sub">Saved locally in this browser. Cross-device sync will be enforced later.</p></div><div class="row"><button onclick="printPDF()">Download PDF</button><button class="secondary" onclick="downloadJSON()">Download JSON</button><button class="secondary" onclick="clearSaved()">Clear saved</button></div></div><div id="history" class="history"></div></section>
 </div>
 <script>
 const sections=[['syllabus','Syllabus'],['general-studies','General Studies'],['english','English'],['mathematics','Mathematics'],['reasoning','Reasoning'],['computer','Computer']];
-const englishModes={
- 'One Word Substitution':{label:'One Word Substitution word/phrase',samples:['philanthropist','omniscient','bibliophile','benevolent']},
- 'Idioms':{label:'Idiom or phrase',samples:['break the ice','hit the nail on the head','once in a blue moon']},
- 'Antonyms & Synonyms':{label:'Word for antonyms and synonyms',samples:['diligent','prudent','mitigate','obsolete']},
- 'Spellings':{label:'Spelling word',samples:['accommodation','committee','necessary','separate']},
- 'Grammar':{label:'Grammar topic or rule',samples:['subject verb agreement','tenses','active voice','direct speech']}
-};
+const englishModeData={'One Word Substitution':{label:'One Word Substitution word/phrase',samples:['philanthropist','omniscient','bibliophile','benevolent']},'Idioms':{label:'Idiom or phrase',samples:['break the ice','hit the nail on the head','once in a blue moon']},'Antonyms & Synonyms':{label:'Word for antonyms and synonyms',samples:['diligent','prudent','mitigate','obsolete']},'Spellings':{label:'Spelling word',samples:['accommodation','committee','necessary','separate']},'Grammar':{label:'Grammar topic or rule',samples:['subject verb agreement','tenses','active voice','direct speech']}};
 const builtIn={benevolent:{meaning:'दयालु, परोपकारी',syn:['kind','charitable'],ant:['cruel','selfish'],ex:'A benevolent officer helped the villagers during the flood.',hi:'एक दयालु अधिकारी ने बाढ़ के समय ग्रामीणों की मदद की।'},diligent:{meaning:'मेहनती, परिश्रमी',syn:['hardworking','industrious'],ant:['lazy','careless'],ex:'A diligent aspirant revises vocabulary every day.',hi:'एक मेहनती अभ्यर्थी रोज़ शब्दावली दोहराता है।'},prudent:{meaning:'समझदार, विवेकपूर्ण',syn:['wise','careful'],ant:['careless','rash'],ex:'A prudent student avoids guesswork in the exam.',hi:'एक समझदार विद्यार्थी परीक्षा में अनुमान लगाने से बचता है।'},mitigate:{meaning:'कम करना, घटाना',syn:['reduce','lessen'],ant:['increase','worsen'],ex:'Regular revision can mitigate exam stress.',hi:'नियमित पुनरावृत्ति परीक्षा के तनाव को कम कर सकती है।'},obsolete:{meaning:'पुराना, अप्रचलित',syn:['outdated','old-fashioned'],ant:['modern','current'],ex:'Some obsolete words still appear in vocabulary lists.',hi:'कुछ अप्रचलित शब्द अभी भी शब्दावली सूचियों में मिलते हैं।'}};
-let activeSection=localStorage.getItem('abhyasam.section')||'english';if(activeSection==='computer-mode')activeSection='computer';let activeEng=localStorage.getItem('abhyasam.englishMode')||'Antonyms & Synonyms';let current=null;
-const $=id=>document.getElementById(id);const esc=s=>String(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+let activeSection=localStorage.getItem('abhyasam.section')||'english';if(activeSection==='computer-mode')activeSection='computer';let activeEng=localStorage.getItem('abhyasam.englishMode')||'Antonyms & Synonyms';let current=null;const $=id=>document.getElementById(id);const esc=s=>String(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
 function init(){renderNav();renderEnglishModes();setSection(activeSection);loadSyllabus();renderHistory();applyTheme(localStorage.getItem('abhyasam.theme')||'dark')}
 function renderNav(){mainNav.innerHTML=sections.map(([id,name])=>`<button onclick="setSection('${id}')" data-id="${id}">${name}</button>`).join('')+`<button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">☾</button>`}
 function setSection(id){if(id==='computer-mode')id='computer';activeSection=id;localStorage.setItem('abhyasam.section',id);document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('#mainNav button[data-id]').forEach(b=>b.classList.toggle('active',b.dataset.id===id))}
 function toggleTheme(){applyTheme(document.body.dataset.theme==='dark'?'light':'dark')}function applyTheme(t){document.body.dataset.theme=t;localStorage.setItem('abhyasam.theme',t);let b=$('themeBtn');if(b){b.textContent=t==='dark'?'☾':'☀';b.title=t==='dark'?'Switch to light theme':'Switch to dark theme'}}
-function renderEnglishModes(){englishModes.innerHTML=Object.keys(englishModes).map(m=>`<span class="chip ${m===activeEng?'active':''}" onclick="setEngMode('${m}')">${m}</span>`).join('');setEngMode(activeEng,false)}
-function setEngMode(m,save=true){activeEng=m;if(save)localStorage.setItem('abhyasam.englishMode',m);document.querySelectorAll('#englishModes .chip').forEach(c=>c.classList.toggle('active',c.textContent===m));engLabel.textContent=englishModes[m].label;engInput.placeholder='Example: '+englishModes[m].samples[0];engSamples.innerHTML=englishModes[m].samples.map(x=>`<span class="chip" onclick="engInput.value='${x}';generateEnglish()">${x}</span>`).join('')}
+function renderEnglishModes(){englishModes.innerHTML=Object.keys(englishModeData).map(m=>`<span class="chip ${m===activeEng?'active':''}" onclick="setEngMode('${m}')">${m}</span>`).join('');setEngMode(activeEng,false)}
+function setEngMode(m,save=true){activeEng=m;if(save)localStorage.setItem('abhyasam.englishMode',m);document.querySelectorAll('#englishModes .chip').forEach(c=>c.classList.toggle('active',c.textContent===m));engLabel.textContent=englishModeData[m].label;engInput.placeholder='Example: '+englishModeData[m].samples[0];engSamples.innerHTML=englishModeData[m].samples.map(x=>`<span class="chip" onclick="engInput.value='${x}';generateEnglish()">${x}</span>`).join('')}
 async function translate(text){try{let r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|hi');let j=await r.json();return j?.responseData?.translatedText||''}catch(e){return''}}
 async function words(term,rel){try{let r=await fetch(`https://api.datamuse.com/words?${rel}=${encodeURIComponent(term)}&max=5`);let j=await r.json();return [...new Set(j.map(x=>x.word).filter(Boolean))].slice(0,2)}catch(e){return[]}}
 function englishFallback(term){return{meaning:'Hindi meaning will be improved after AI/backend connection.',syn:['related word 1','related word 2'],ant:['opposite word 1','opposite word 2'],ex:`The term "${term}" is useful for SSC CGL and CHSL revision.`,hi:'यह शब्द SSC CGL और CHSL की पुनरावृत्ति के लिए उपयोगी है।'}}
 async function generateEnglish(){let term=engInput.value.trim();if(!term)return;let key=term.toLowerCase();let data=builtIn[key]||englishFallback(term);if(!builtIn[key]){let [hi,syn,ant]=await Promise.all([translate(term),words(term,'rel_syn'),words(term,'rel_ant')]);if(hi)data.meaning=hi;if(syn.length)data.syn=syn;if(ant.length)data.ant=ant;let exHi=await translate(data.ex);if(exHi)data.hi=exHi}current={type:'English',category:activeEng,title:term,body:`Hindi Meaning: ${data.meaning}\nSynonyms: ${data.syn.join(', ')}\nAntonyms: ${data.ant.join(', ')}\nExample: ${data.ex}\nExample Meaning in Hindi: ${data.hi}`,time:new Date().toLocaleString()};engOut.innerHTML=['Hindi Meaning|'+data.meaning,'Synonyms (2)|'+data.syn.join(', '),'Antonyms (2)|'+data.ant.join(', '),'Example|'+data.ex,'Example Meaning in Hindi|'+data.hi].map(x=>{let[a,b]=x.split('|');return`<div class="box"><div class="out-title">${a}</div><div class="out">${esc(b)}</div></div>`}).join('')}
 function clearEnglish(){engInput.value='';engOut.innerHTML='';current=null}
 const gsSubjects=[['Geography - Physical',['climate','soil','river','mountain','earthquake','monsoon','plateau']],['Geography - Indian',['india','indian','ganga','himalaya','state','union territory']],['Geography - World',['world','continent','ocean','country','equator']],['History - Ancient',['vedic','mauryan','gupta','harappa','buddha','ashoka']],['History - Medieval',['mughal','sultanate','akbar','shivaji','medieval']],['History - Modern',['british','freedom','congress','revolt','gandhi','modern']],['Science - Physics',['force','motion','light','sound','electric','heat']],['Science - Chemistry',['acid','base','metal','compound','atom','gas']],['Science - Biology',['cell','plant','animal','blood','disease','vitamin']],['Polity',['constitution','article','parliament','president','fundamental','court']],['Economics',['gdp','inflation','budget','tax','bank','market']],['Environment',['environment','ecology','pollution','biodiversity','climate change']],['Static GK',['award','book','dance','festival','sport','organization']],['Current Affairs',['current','recent','2024','2025','2026','scheme']]];
-function classify(text,list){let t=text.toLowerCase();let best=list[0][0],score=-1;list.forEach(([name,keys])=>{let s=keys.reduce((a,k)=>a+(t.includes(k)?1:0),0);if(s>score){score=s;best=name}});return best}
-function analysePaste(kind){let id={gs:'gsPaste',math:'mathPaste',reason:'reasonPaste',computer:'computerPaste'}[kind];let out={gs:'gsOut',math:'mathOut',reason:'reasonOut',computer:'computerOut'}[kind];let text=$(id).value.trim();if(!text)return;let title=text.split(/[.\n]/)[0].slice(0,80)||'Revision Note';let subject='General';let focus='SSC CGL/CHSL revision';let extra='Mark keywords, revise facts, and connect the note with previous-year question patterns.';if(kind==='gs'){subject=classify(text,gsSubjects);extra='Remember exact facts, category, timeline/location, and common one-liner PYQ framing.'}if(kind==='math'){subject=classify(text,[['Arithmetic',['percentage','profit','loss','ratio','average','interest','speed','time','work']],['Algebra',['equation','x','polynomial','identity']],['Geometry',['triangle','circle','angle','area']],['Mensuration',['volume','surface','cone','cylinder']],['Trigonometry',['sin','cos','tan','height','distance']]]);extra='Extract formula, given values, shortest method, and final check. Practice similar type within time limit.'}if(kind==='reason'){subject=classify(text,[['Series',['series','sequence','next']],['Analogy',['analogy','similar']],['Coding-Decoding',['code','coding','decode']],['Syllogism',['syllogism','statement','conclusion']],['Direction',['direction','north','south','east','west']],['Blood Relation',['father','mother','brother','sister']]]);extra='Identify pattern first, avoid assumptions, and verify options by elimination.'}if(kind==='computer'){subject=classify(text,[['Hardware',['cpu','ram','rom','keyboard','printer']],['Software',['os','software','application']],['Internet',['internet','browser','email','url']],['MS Office',['word','excel','powerpoint']],['Cyber Security',['virus','malware','password','phishing']],['Shortcuts',['ctrl','shortcut','keyboard']]]);extra='Focus on definitions, examples, shortcuts, and commonly confused terms.'}let body=`Subject - ${subject}\nTitle - ${title}\nExam perspective - ${focus}\nBetter revision data - ${text}\nHow to revise - ${extra}`;$(out).innerHTML=`<div class="out-title">${esc(subject)}</div><div class="out">${esc(body)}</div>`;current={type:kind==='gs'?'General Studies':kind==='math'?'Mathematics':kind==='reason'?'Reasoning':'Computer',category:subject,title,body,time:new Date().toLocaleString()}}
+function classify(text,list){let t=text.toLowerCase(),best=list[0][0],score=-1;list.forEach(([name,keys])=>{let s=keys.reduce((a,k)=>a+(t.includes(k)?1:0),0);if(s>score){score=s;best=name}});return best}
+function analysePaste(kind){let ids={gs:'gsPaste',math:'mathPaste',reason:'reasonPaste',computer:'computerPaste'},outs={gs:'gsOut',math:'mathOut',reason:'reasonOut',computer:'computerOut'};let text=$(ids[kind]).value.trim();if(!text)return;let title=text.split(/[.\n]/)[0].slice(0,80)||'Revision Note',subject='General',extra='Mark keywords, revise facts, and connect the note with PYQ patterns.';if(kind==='gs'){subject=classify(text,gsSubjects);extra='Remember exact facts, category, timeline/location, and one-liner PYQ framing.'}if(kind==='math'){subject=classify(text,[['Arithmetic',['percentage','profit','loss','ratio','average','interest','speed','time','work']],['Algebra',['equation','polynomial','identity']],['Geometry',['triangle','circle','angle','area']],['Mensuration',['volume','surface','cone','cylinder']],['Trigonometry',['sin','cos','tan','height','distance']]]);extra='Extract formula, given values, shortest method, and final check.'}if(kind==='reason'){subject=classify(text,[['Series',['series','sequence','next']],['Analogy',['analogy','similar']],['Coding-Decoding',['code','coding','decode']],['Syllogism',['syllogism','statement','conclusion']],['Direction',['direction','north','south','east','west']],['Blood Relation',['father','mother','brother','sister']]]);extra='Identify pattern first, avoid assumptions, and verify options by elimination.'}if(kind==='computer'){subject=classify(text,[['Hardware',['cpu','ram','rom','keyboard','printer']],['Software',['os','software','application']],['Internet',['internet','browser','email','url']],['MS Office',['word','excel','powerpoint']],['Cyber Security',['virus','malware','password','phishing']],['Shortcuts',['ctrl','shortcut','keyboard']]]);extra='Focus on definitions, examples, shortcuts, and commonly confused terms.'}let type={gs:'General Studies',math:'Mathematics',reason:'Reasoning',computer:'Computer'}[kind];let body=`Subject - ${subject}\nTitle - ${title}\nExam perspective - SSC CGL/CHSL revision\nBetter revision data - ${text}\nHow to revise - ${extra}`;$(outs[kind]).innerHTML=`<div class="out-title">${esc(subject)}</div><div class="out">${esc(body)}</div>`;current={type,category:subject,title,body,time:new Date().toLocaleString()}}
 function getSaved(){return JSON.parse(localStorage.getItem('abhyasam.saved')||'[]')}function setSaved(v){localStorage.setItem('abhyasam.saved',JSON.stringify(v));renderHistory()}function saveCurrent(){if(!current)return;let v=getSaved();v.unshift({...current,id:Date.now()});setSaved(v)}function renderHistory(){let v=getSaved().map(x=>x.type==='Computer Mode'?{...x,type:'Computer'}:x);history.innerHTML=v.length?v.map(x=>`<article class="card"><span class="tag">${esc(x.type)} - ${esc(x.category)}</span><h3>${esc(x.title)}</h3><p class="small">${esc(x.time)}</p><div class="out">${esc(x.body)}</div></article>`).join(''):'<div class="box small">No saved entries yet.</div>'}
 function clearSaved(){if(confirm('Clear saved revision list?'))setSaved([])}function printPDF(){window.print()}function downloadJSON(){let blob=new Blob([JSON.stringify(getSaved().map(x=>x.type==='Computer Mode'?{...x,type:'Computer'}:x),null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='abhyasam-ai-revision.json';a.click();URL.revokeObjectURL(a.href)}
 function loadSyllabus(){let arr=JSON.parse(localStorage.getItem('abhyasam.syllabus')||'[]');syllabusList.innerHTML=arr.length?arr.map((x,i)=>`<label class="syllabus-row"><input type="checkbox" ${x.done?'checked':''} onchange="toggleSyllabus(${i},this.checked)"><span>${esc(x.text)}</span></label>`).join(''):'<div class="small">No syllabus topics added yet.</div>';let done=arr.filter(x=>x.done).length;syllabusProgress.textContent=`${done} / ${arr.length} completed`}
