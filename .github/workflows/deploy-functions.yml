@@ -39,7 +39,7 @@ jobs:
 
       - name: Install function dependencies
         working-directory: functions
-        run: npm ci
+        run: npm install
 
       - name: Deploy Firebase Functions
         run: npx firebase-tools deploy --only functions --project abhyasam-ai --non-interactive
