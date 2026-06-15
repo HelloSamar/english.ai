@@ -4,106 +4,52 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>English Abhyasam</title>
-  <meta name="description" content="Free English practice tools for government exam aspirants." />
+  <meta name="description" content="Hindi Vocabulary Helper for English words and phrases." />
   <style>
-    :root {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --line: #e2e8f0;
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
-      --soft: #eff6ff;
-      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #eef4ff 0, var(--bg) 300px);
-      color: var(--text);
-      line-height: 1.55;
-    }
-    a { color: inherit; text-decoration: none; }
-    .wrap { width: min(1040px, 92vw); margin: 0 auto; padding: 28px 0 48px; }
-    nav { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 34px; }
-    .brand { font-weight: 950; letter-spacing: -0.03em; font-size: 1.2rem; }
-    .brand span { color: var(--blue); }
-    .nav-links { display: flex; gap: 10px; flex-wrap: wrap; }
-    .nav-links a { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 12px; font-weight: 800; color: #334155; }
-    .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: stretch; }
-    @media (max-width: 800px) { .hero { grid-template-columns: 1fr; } nav { align-items: flex-start; flex-direction: column; } }
-    .panel { background: rgba(255,255,255,.94); border: 1px solid var(--line); border-radius: 26px; padding: 26px; box-shadow: var(--shadow); }
-    .label { display: inline-flex; background: var(--soft); color: var(--blue); border: 1px solid #dbeafe; border-radius: 999px; padding: 7px 11px; font-size: .82rem; font-weight: 950; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
-    h1 { font-size: clamp(2.25rem, 5vw, 4.2rem); line-height: .98; letter-spacing: -0.07em; margin: 0 0 14px; }
-    .lead { color: #475569; font-size: 1.08rem; margin: 0; max-width: 720px; }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 12px 17px; font-weight: 950; background: var(--blue); color: #fff; box-shadow: 0 10px 22px rgba(37, 99, 235, .22); }
-    .btn:hover { background: var(--blue-dark); }
-    .btn.secondary { background: #fff; color: #0f172a; border: 1px solid var(--line); box-shadow: none; }
-    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 20px; }
-    @media (max-width: 700px) { .cards { grid-template-columns: 1fr; } }
-    .card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
-    .card h2 { margin: 0 0 7px; font-size: 1.05rem; }
-    .card p { margin: 0; color: var(--muted); }
-    .status-list { margin: 0; padding-left: 18px; color: #475569; }
-    .status-list li { margin: 8px 0; }
-    footer { margin-top: 22px; color: var(--muted); text-align: center; font-size: .92rem; }
+    :root { --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --blue:#2563eb; --blueDark:#1d4ed8; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:linear-gradient(180deg,#eef4ff 0,#f8fafc 320px); color:var(--text); line-height:1.55; }
+    main { width:min(920px,92vw); margin:0 auto; padding:32px 0 56px; }
+    .nav { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-bottom:34px; }
+    .brand { font-size:1.2rem; font-weight:950; letter-spacing:-.03em; }
+    .brand span { color:var(--blue); }
+    .link { border:1px solid var(--line); background:#fff; border-radius:999px; padding:9px 13px; color:#334155; text-decoration:none; font-weight:800; }
+    .panel { background:rgba(255,255,255,.94); border:1px solid var(--line); border-radius:28px; padding:30px; box-shadow:0 18px 45px rgba(15,23,42,.08); }
+    .tag { display:inline-flex; border:1px solid #dbeafe; background:#eff6ff; color:var(--blue); border-radius:999px; padding:7px 11px; font-size:.82rem; font-weight:950; text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; }
+    h1 { margin:0 0 14px; font-size:clamp(2.25rem,5vw,4.2rem); line-height:.98; letter-spacing:-.07em; }
+    p { margin:0; color:var(--muted); font-size:1.08rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+    .btn { display:inline-flex; justify-content:center; align-items:center; border-radius:999px; padding:12px 17px; background:var(--blue); color:#fff; text-decoration:none; font-weight:950; box-shadow:0 10px 22px rgba(37,99,235,.22); }
+    .btn:hover { background:var(--blueDark); }
+    .btn.secondary { background:#fff; color:#0f172a; border:1px solid var(--line); box-shadow:none; }
+    .features { margin:22px 0 0; padding-left:20px; color:#475569; }
+    .features li { margin:8px 0; }
+    footer { margin-top:22px; color:var(--muted); text-align:center; font-size:.92rem; }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <nav>
-      <a class="brand" href="./">English <span>Abhyasam</span></a>
-      <div class="nav-links">
-        <a href="./vocab/">Vocabulary Helper</a>
-        <a href="https://github.com/HelloSamar/englishabhyasam">GitHub</a>
-      </div>
-    </nav>
+  <main>
+    <div class="nav">
+      <div class="brand">English <span>Abhyasam</span></div>
+      <a class="link" href="https://github.com/HelloSamar/englishabhyasam">GitHub</a>
+    </div>
 
-    <section class="hero">
-      <div class="panel">
-        <div class="label">Free English Practice</div>
-        <h1>Simple English tools for exam preparation.</h1>
-        <p class="lead">English Abhyasam is being built as a free preparation platform for learners who want practical grammar, vocabulary, reading, and test practice.</p>
-        <div class="actions">
-          <a class="btn" href="./vocab/">Open Vocabulary Helper</a>
-          <a class="btn secondary" href="https://github.com/HelloSamar/englishabhyasam">View Repository</a>
-        </div>
+    <section class="panel">
+      <div class="tag">Vocabulary tool</div>
+      <h1>Hindi Vocabulary Helper</h1>
+      <p>Enter an English word or phrase and get a Hindi meaning, two synonyms, two antonyms, and an example sentence with Hindi translation.</p>
+      <div class="actions">
+        <a class="btn" href="./vocab/">Open Vocabulary Helper</a>
+        <a class="btn secondary" href="https://github.com/HelloSamar/englishabhyasam">View Repository</a>
       </div>
-
-      <div class="panel">
-        <div class="label">Available now</div>
-        <ul class="status-list">
-          <li>Hindi meaning for English words and phrases</li>
-          <li>Two synonyms and two antonyms</li>
-          <li>Example sentence with Hindi translation</li>
-          <li>Copyable AI prompt fallback for difficult phrases</li>
-        </ul>
-      </div>
+      <ul class="features">
+        <li>Browser-based static app</li>
+        <li>Works on GitHub Pages</li>
+        <li>Includes fallback prompt for difficult phrases</li>
+      </ul>
     </section>
 
-    <section class="cards" aria-label="Planned sections">
-      <div class="card">
-        <h2>Vocabulary</h2>
-        <p>Live helper is available now. Curated exam word lists can be added next.</p>
-      </div>
-      <div class="card">
-        <h2>Grammar</h2>
-        <p>Future section for tense, voice, narration, subject-verb agreement, and error spotting.</p>
-      </div>
-      <div class="card">
-        <h2>Editorials</h2>
-        <p>Future section for reading practice with highlighted vocabulary and comprehension.</p>
-      </div>
-      <div class="card">
-        <h2>Mock Tests</h2>
-        <p>Future section for timed quizzes with score and review.</p>
-      </div>
-    </section>
-
-    <footer>Free for learners. Built for practical exam preparation.</footer>
+    <footer>Free English vocabulary practice.</footer>
   </main>
 </body>
 </html>
