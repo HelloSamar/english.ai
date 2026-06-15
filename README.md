@@ -2,6 +2,8 @@
 
 A focused revision workspace for government exam aspirants.
 
+Organise syllabus progress, convert pasted notes into exam-focused revision data, and build English vocabulary lists with Hindi support.
+
 ## Current goal
 
 The app is being built as a focused revision workspace. It currently has these sections:
