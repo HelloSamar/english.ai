@@ -1,79 +1,41 @@
 # vocab.ai
 
-vocab.ai is a single-purpose vocabulary revision web app for SSC CGL aspirants.
+vocab.ai is a vocabulary revision web app for government exam aspirants who want quick English practice with Hindi support.
 
-## Goal
+## What it does
 
-A user enters an English word or phrase. The app returns:
+Enter an English word or phrase and build your revision PDF automatically. For each lookup, vocab.ai gives:
 
 - Hindi meaning
 - Two synonyms
 - Two antonyms
-- One SSC CGL-style example sentence
+- One exam-style example sentence
 - Hindi meaning of the example sentence
 
-Every generated entry is saved in the learner's browser so it can be revised later and downloaded as a PDF.
+Every generated entry is saved locally in the browser for later revision. Learners can download the saved list as a PDF and use it for quick review before mocks.
 
-## Target user
+## Who it is for
 
-SSC CGL aspirants who want quick English vocabulary practice with Hindi support.
+vocab.ai is useful for aspirants preparing for exams such as:
 
-## Live site
+- SSC CGL
+- SSC CHSL
+- Banking exams
+- Railway exams
+- Defence exams
+- State government exams
+- Other competitive exams with English vocabulary sections
 
-After GitHub Pages is enabled, the site is available at:
+## Revision tip
 
-```text
-https://hellosamar.github.io/vocab.ai/
-```
+Generate entries for the words and phrases you miss in practice sets, previous-year questions, mocks, or daily reading. Keep adding them to your saved list, then download the PDF for fast revision before tests.
 
-Repository:
+## Focus areas
 
-```text
-https://github.com/HelloSamar/vocab.ai
-```
+The app is designed around common vocabulary needs in government exams:
 
-## Files kept in this repository
-
-```text
-index.html
-README.md
-.github/workflows/pages.yml
-.nojekyll
-```
-
-Everything unrelated to the vocabulary app has been removed from the active `main` branch.
-
-## Features
-
-- SSC CGL-focused vocabulary lookup
-- Hindi meaning for the searched word or phrase
-- Two synonyms and two antonyms
-- SSC-style example sentence
-- Hindi meaning of the example sentence
-- Local revision history using `localStorage`
-- Download saved revision list as PDF
-- Download saved revision list as JSON backup
-- Clear saved history
-- Works as a static GitHub Pages site
-
-## Data storage
-
-Saved lookups are stored locally in the user's browser with `localStorage`. They are not stored on a server.
-
-## Deployment
-
-GitHub Pages deployment is handled by:
-
-```text
-.github/workflows/pages.yml
-```
-
-Use GitHub repo settings if needed:
-
-```text
-Settings -> Pages -> Source -> GitHub Actions
-```
-
-## Note about accuracy
-
-This is a static frontend app. It uses built-in SSC-style examples for common exam words and public browser-side lookup services where available. For perfect AI-quality results for every phrase, connect a small backend API later.
+- OWS
+- Idioms
+- Antonyms and synonyms
+- Spellings
+- Important words and phrases
