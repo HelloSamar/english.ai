@@ -21,6 +21,7 @@ const store = {
   set(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 };
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const clean = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 
 const sections = [
   ['syllabus', 'Syllabus'],
@@ -143,6 +144,8 @@ function renderEnglishModes() {
     chip.onclick = () => {
       englishMode = mode;
       store.set('english-mode', mode);
+      current = null;
+      $('engOut').innerHTML = '';
       renderEnglishModes();
     };
     box.appendChild(chip);
@@ -242,24 +245,126 @@ function detectSubject(type, text) {
   if (/river|mountain|monsoon|climate|soil|ocean|geography/.test(t)) return 'Geography';
   if (/ancient|medieval|modern|mughal|british|history/.test(t)) return 'History';
   if (/physics|chemistry|biology|cell|force|acid|science/.test(t)) return 'Science';
-  if (/constitution|parliament|president|polity/.test(t)) return 'Polity';
-  if (/economy|inflation|gdp|budget|tax/.test(t)) return 'Economics';
-  if (/environment|biodiversity|pollution/.test(t)) return 'Environment';
+  if (/constitution|parliament|president|governor|polity|article/.test(t)) return 'Polity';
+  if (/economy|gdp|inflation|budget|bank|tax|economics/.test(t)) return 'Economics';
+  if (/environment|biodiversity|climate change|pollution/.test(t)) return 'Environment';
   if (/current|appointment|award|scheme/.test(t)) return 'Current Affairs';
   return 'Static GK';
 }
 
-function generateEnglish() {
-  const term = $('engInput').value.trim();
+async function generateEnglish() {
+  const term = clean($('engInput').value);
   if (!term) return;
+  const button = $('generateEnglishBtn');
+  button.disabled = true;
+  $('engOut').innerHTML = `<div class="box" style="grid-column:1/-1"><div class="out-title">Generating</div><div class="out">Preparing a clean English revision entry...</div></div>`;
+  try {
+    const data = await buildEnglishEntry(term);
+    const body = englishBody(term, data);
+    current = { id: crypto.randomUUID(), sectionId: 'english', section: 'English', title: term, body, created: new Date().toLocaleString(), createdMs: Date.now() };
+    renderEnglishOutput(term, data);
+  } catch (error) {
+    const data = fallbackEnglishData(term, 'Lookup failed. Try again or refine manually.');
+    const body = englishBody(term, data);
+    current = { id: crypto.randomUUID(), sectionId: 'english', section: 'English', title: term, body, created: new Date().toLocaleString(), createdMs: Date.now() };
+    renderEnglishOutput(term, data);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function buildEnglishEntry(term) {
   const key = term.toLowerCase();
-  const data = builtIn[key] || { meaning: 'Hindi meaning to be refined later', syn: ['related word 1', 'related word 2'], ant: ['opposite word 1', 'opposite word 2'], ex: `${term} is useful for exam vocabulary revision.`, hi: 'यह परीक्षा शब्दावली पुनरावृत्ति के लिए उपयोगी है।' };
-  const body = `Category: ${englishMode}\nHindi Meaning: ${data.meaning}\nSynonyms: ${data.syn.join(', ')}\nAntonyms: ${data.ant.join(', ')}\nExample: ${data.ex}\nExample Hindi: ${data.hi}`;
-  current = { id: crypto.randomUUID(), sectionId: 'english', section: 'English', title: term, body, created: new Date().toLocaleString(), createdMs: Date.now() };
-  $('engOut').innerHTML = cards([
-    ['Word / Phrase', term], ['Category', englishMode], ['Hindi Meaning', data.meaning],
-    ['Synonyms', data.syn.join(', ')], ['Antonyms', data.ant.join(', ')], ['Example', data.ex], ['Example Hindi', data.hi]
+  if (builtIn[key]) return { ...builtIn[key], note: 'Verified built-in entry.' };
+  const [meaning, syn, ant, example] = await Promise.all([
+    translateToHindi(term),
+    getDatamuseWords(term, 'rel_syn'),
+    getDatamuseWords(term, 'rel_ant'),
+    getDictionaryExample(term)
   ]);
+  const ex = example || defaultExample(term);
+  const hi = await translateToHindi(ex);
+  return {
+    meaning: meaning || 'Not found automatically. Refine manually if needed.',
+    syn: syn.length ? syn : ['Not available automatically', '—'],
+    ant: ant.length ? ant : ['Not available automatically', '—'],
+    ex,
+    hi: hi || 'Hindi translation not found automatically.',
+    note: meaning || syn.length || ant.length ? 'Auto-generated lookup. Review once before final revision.' : 'Limited automatic data found. Use this as a draft.'
+  };
+}
+
+function fallbackEnglishData(term, note) {
+  return {
+    meaning: 'Not found automatically. Refine manually if needed.',
+    syn: ['Not available automatically', '—'],
+    ant: ['Not available automatically', '—'],
+    ex: defaultExample(term),
+    hi: 'Hindi translation not found automatically.',
+    note
+  };
+}
+
+async function translateToHindi(text) {
+  if (!text) return '';
+  try {
+    const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|hi';
+    const response = await fetch(url);
+    if (!response.ok) return '';
+    const json = await response.json();
+    return clean(json?.responseData?.translatedText || '');
+  } catch { return ''; }
+}
+
+async function getDatamuseWords(term, relation) {
+  try {
+    const url = `https://api.datamuse.com/words?${relation}=${encodeURIComponent(term)}&max=10`;
+    const response = await fetch(url);
+    if (!response.ok) return [];
+    const json = await response.json();
+    return [...new Set((Array.isArray(json) ? json : []).map(item => clean(item.word)).filter(Boolean).filter(word => word.toLowerCase() !== term.toLowerCase()))].slice(0, 2);
+  } catch { return []; }
+}
+
+async function getDictionaryExample(term) {
+  if (/\s/.test(term)) return '';
+  try {
+    const response = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(term));
+    if (!response.ok) return '';
+    const json = await response.json();
+    const meanings = json?.[0]?.meanings || [];
+    for (const meaning of meanings) {
+      for (const definition of (meaning.definitions || [])) {
+        if (definition.example) return clean(definition.example);
+      }
+    }
+  } catch {}
+  return '';
+}
+
+function defaultExample(term) {
+  if (englishMode === 'Grammar') return `${term} is important for error spotting and sentence improvement.`;
+  if (englishMode === 'Spellings') return `Check the spelling of ${term} carefully before marking the answer.`;
+  if (englishMode === 'Idioms') return `The phrase "${term}" can appear in an idiom-based question.`;
+  if (englishMode === 'One Word Substitution') return `The expression "${term}" can be revised as a one word substitution item.`;
+  return `${term} is useful for English vocabulary revision.`;
+}
+
+function englishBody(term, data) {
+  return `Category: ${englishMode}\nWord/Phrase: ${term}\nHindi Meaning: ${data.meaning}\nSynonyms (2): ${data.syn.join(', ')}\nAntonyms (2): ${data.ant.join(', ')}\nExample Sentence: ${data.ex}\nExample Meaning in Hindi: ${data.hi}\nNote: ${data.note || 'Review once before final revision.'}`;
+}
+
+function renderEnglishOutput(term, data) {
+  const rows = [
+    ['Category', englishMode],
+    ['Word / Phrase', term],
+    ['Hindi Meaning', data.meaning],
+    ['Synonyms (2)', data.syn.join(', ')],
+    ['Antonyms (2)', data.ant.join(', ')],
+    ['Example Sentence', data.ex],
+    ['Example Meaning in Hindi', data.hi]
+  ];
+  $('engOut').innerHTML = `<div class="box" style="grid-column:1/-1"><div class="out-title">English Revision Entry</div><div class="out">${esc(englishBody(term, data))}</div></div>${cards(rows)}`;
 }
 
 function cards(rows) { return rows.map(([title, value]) => `<div class="box"><div class="out-title">${esc(title)}</div><div class="out">${esc(value)}</div></div>`).join(''); }
