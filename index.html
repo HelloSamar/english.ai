@@ -6,19 +6,58 @@
 <title>abhyasam.ai</title>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body data-theme="dark">
-<div class="wrap">
-<header class="top"><div class="brand"><span class="brand-main">abhyasam</span><span class="brand-ai">.ai</span></div><nav class="nav" id="mainNav"></nav></header>
-<main class="main-shell">
-<section id="syllabus" class="panel section hidden"><div class="section-head"><div><h2>Syllabus</h2><p class="sub">Add topics and tick them when completed.</p></div><div class="progress" id="syllabusProgress">0 / 0 completed</div></div><div class="section-body"><div class="grid no-print"><div class="input-card"><label>Add syllabus topic</label><input id="syllabusInput" placeholder="Example: History - Modern India"><div class="row"><button id="addSyllabusBtn">Add topic</button><button class="secondary" id="clearSyllabusBtn">Clear syllabus</button></div></div><div class="result-card"><div class="out-title">Progress tracker</div><div class="out">Create your own checklist for now. Tick completed topics and sync them across devices after Google sign-in.</div></div></div><div id="syllabusList" class="syllabus-list"></div></div></section>
-<section id="general-studies" class="panel section hidden"><div class="section-head"><div><h2>General Studies</h2><p class="sub">Paste any GS note and organise it from an SSC CGL/CHSL perspective.</p></div></div><div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste GS content</label><textarea id="gsPaste" placeholder="Paste facts, notes, PYQ explanation, current affairs, etc."></textarea><div class="row"><button data-analyse="gs">Organise GS note</button><button class="secondary" id="saveGsBtn">Save</button></div></div><div class="result-card" id="gsOut"><div class="out-title">Output format</div><div class="out">Subject - title name
-Subject can be Geography, History, Science, Polity, Economics, Environment, Static GK, or Current Affairs.</div></div></div></div></section>
-<section id="english" class="panel section"><div class="section-head"><div><h2>English</h2><p class="sub">Choose a category and generate Hindi-supported entries for revision.</p></div></div><div class="section-body"><div class="chips no-print" id="englishModes"></div><div class="grid" style="margin-top:16px"><div class="input-card no-print"><label id="engLabel">Word or phrase</label><input id="engInput" placeholder="Example: benevolent"><div class="chips" id="engSamples"></div><div class="row"><button id="generateEnglishBtn">Generate</button><button class="secondary" id="saveEnglishBtn">Save</button><button class="secondary" id="clearEnglishBtn">Clear</button></div><p class="small">Built-in examples work instantly. More AI-quality generation can be added later.</p></div><div class="output-grid" id="engOut"></div></div></div></section>
-<section id="mathematics" class="panel section hidden"><div class="section-head"><div><h2>Mathematics</h2><p class="sub">Paste a question, formula, or solution and convert it into a cleaner revision structure.</p></div></div><div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste mathematics content</label><textarea id="mathPaste" placeholder="Paste arithmetic/algebra/geometry/trigonometry/mensuration notes or question."></textarea><div class="row"><button data-analyse="math">Organise Math note</button><button class="secondary" id="saveMathBtn">Save</button></div></div><div class="result-card" id="mathOut"><div class="out-title">Ready for input</div><div class="out">Paste a question, formula, or explanation to create a revision note.</div></div></div></div></section>
-<section id="reasoning" class="panel section hidden"><div class="section-head"><div><h2>Reasoning</h2><p class="sub">Paste reasoning content and convert it into exam-focused revision notes.</p></div></div><div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste reasoning content</label><textarea id="reasonPaste" placeholder="Paste analogy, series, coding-decoding, direction, blood relation, syllogism, etc."></textarea><div class="row"><button data-analyse="reason">Organise Reasoning note</button><button class="secondary" id="saveReasonBtn">Save</button></div></div><div class="result-card" id="reasonOut"><div class="out-title">Ready for input</div><div class="out">Paste reasoning material to structure it for revision.</div></div></div></div></section>
-<section id="computer" class="panel section hidden"><div class="section-head"><div><h2>Computer</h2><p class="sub">Paste computer-awareness notes and organise them for exam revision.</p></div></div><div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste computer content</label><textarea id="computerPaste" placeholder="Paste notes on MS Office, internet, hardware, software, shortcuts, cyber security, etc."></textarea><div class="row"><button data-analyse="computer">Organise Computer note</button><button class="secondary" id="saveComputerBtn">Save</button></div></div><div class="result-card" id="computerOut"><div class="out-title">Ready for input</div><div class="out">Paste computer-awareness content to make a clean revision note.</div></div></div></div></section>
-<section class="panel" id="savedPanel"><h2 class="print-title">abhyasam.ai saved revision list</h2><div class="syncbar no-print"><div class="sync-status" id="syncStatus">Local mode. Sign in to sync across devices.</div><div class="row" style="margin-top:0"><button id="loginBtn">Sign in with Google</button><button class="secondary hidden" id="syncNowBtn">Sync now</button><button class="secondary hidden" id="logoutBtn">Sign out</button></div></div><div class="section-head no-print"><div><h2>Saved revision list</h2><p class="sub">Saved locally first. After Google sign-in, saved entries and syllabus checklist sync across devices.</p></div><div class="row"><button id="printBtn">Download PDF</button><button class="secondary" id="jsonBtn">Download JSON</button><button class="secondary" id="clearSavedBtn">Clear saved</button></div></div><div class="section-body"><div id="history" class="history"></div></div></section>
-</main>
+<body data-theme="light">
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand"><span class="brand-main">abhyasam</span><span class="brand-ai">.ai</span></div>
+      <p>Exam revision workspace</p>
+    </div>
+    <nav class="nav" id="mainNav" aria-label="Main sections"></nav>
+  </aside>
+
+  <main class="workspace">
+    <section class="workspace-top no-print">
+      <div>
+        <p class="eyebrow">Government exam preparation</p>
+        <h1>Study, organise, revise.</h1>
+      </div>
+      <div class="top-note">English is the default workspace. Use the left menu to switch subjects.</div>
+    </section>
+
+    <section id="syllabus" class="panel section hidden">
+      <div class="section-head"><div><p class="eyebrow">Planner</p><h2>Syllabus</h2><p class="sub">Add topics and tick them when completed.</p></div><div class="progress" id="syllabusProgress">0 / 0 completed</div></div>
+      <div class="section-body"><div class="grid no-print"><div class="input-card"><label>Add syllabus topic</label><input id="syllabusInput" placeholder="Example: History - Modern India"><div class="row"><button id="addSyllabusBtn">Add topic</button><button class="secondary" id="clearSyllabusBtn">Clear syllabus</button></div></div><div class="result-card"><div class="out-title">Progress tracker</div><div class="out">Create your checklist. Tick completed topics and sync them across devices after Google sign-in.</div></div></div><div id="syllabusList" class="syllabus-list"></div></div>
+    </section>
+
+    <section id="general-studies" class="panel section hidden">
+      <div class="section-head"><div><p class="eyebrow">Notes</p><h2>General Studies</h2><p class="sub">Paste any GS note and organise it from an SSC CGL/CHSL perspective.</p></div></div>
+      <div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste GS content</label><textarea id="gsPaste" placeholder="Paste facts, notes, PYQ explanation, current affairs, etc."></textarea><div class="row"><button data-analyse="gs">Organise GS note</button><button class="secondary" id="saveGsBtn">Save</button></div></div><div class="result-card" id="gsOut"><div class="out-title">Output format</div><div class="out">Subject - title name
+Subject can be Geography, History, Science, Polity, Economics, Environment, Static GK, or Current Affairs.</div></div></div></div>
+    </section>
+
+    <section id="english" class="panel section">
+      <div class="section-head"><div><p class="eyebrow">Vocabulary</p><h2>English</h2><p class="sub">Choose a category and generate Hindi-supported entries for revision.</p></div></div>
+      <div class="section-body"><div class="chips no-print" id="englishModes"></div><div class="grid workspace-grid"><div class="input-card no-print"><label id="engLabel">Word or phrase</label><input id="engInput" placeholder="Example: benevolent"><div class="chips" id="engSamples"></div><div class="row"><button id="generateEnglishBtn">Generate</button><button class="secondary" id="saveEnglishBtn">Save</button><button class="secondary" id="clearEnglishBtn">Clear</button></div><p class="small">Built-in examples work instantly. More AI-quality generation can be added later.</p></div><div class="output-grid" id="engOut"></div></div></div>
+    </section>
+
+    <section id="mathematics" class="panel section hidden">
+      <div class="section-head"><div><p class="eyebrow">Practice</p><h2>Mathematics</h2><p class="sub">Paste a question, formula, or solution and convert it into a cleaner revision structure.</p></div></div>
+      <div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste mathematics content</label><textarea id="mathPaste" placeholder="Paste arithmetic/algebra/geometry/trigonometry/mensuration notes or question."></textarea><div class="row"><button data-analyse="math">Organise Math note</button><button class="secondary" id="saveMathBtn">Save</button></div></div><div class="result-card" id="mathOut"><div class="out-title">Ready for input</div><div class="out">Paste a question, formula, or explanation to create a revision note.</div></div></div></div>
+    </section>
+
+    <section id="reasoning" class="panel section hidden">
+      <div class="section-head"><div><p class="eyebrow">Practice</p><h2>Reasoning</h2><p class="sub">Paste reasoning content and convert it into exam-focused revision notes.</p></div></div>
+      <div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste reasoning content</label><textarea id="reasonPaste" placeholder="Paste analogy, series, coding-decoding, direction, blood relation, syllogism, etc."></textarea><div class="row"><button data-analyse="reason">Organise Reasoning note</button><button class="secondary" id="saveReasonBtn">Save</button></div></div><div class="result-card" id="reasonOut"><div class="out-title">Ready for input</div><div class="out">Paste reasoning material to structure it for revision.</div></div></div></div>
+    </section>
+
+    <section id="computer" class="panel section hidden">
+      <div class="section-head"><div><p class="eyebrow">Awareness</p><h2>Computer</h2><p class="sub">Paste computer-awareness notes and organise them for exam revision.</p></div></div>
+      <div class="section-body"><div class="grid"><div class="input-card no-print"><label>Paste computer content</label><textarea id="computerPaste" placeholder="Paste notes on MS Office, internet, hardware, software, shortcuts, cyber security, etc."></textarea><div class="row"><button data-analyse="computer">Organise Computer note</button><button class="secondary" id="saveComputerBtn">Save</button></div></div><div class="result-card" id="computerOut"><div class="out-title">Ready for input</div><div class="out">Paste computer-awareness content to make a clean revision note.</div></div></div></div>
+    </section>
+
+    <section class="panel saved-panel" id="savedPanel"><h2 class="print-title">abhyasam.ai saved revision list</h2><div class="syncbar no-print"><div><div class="out-title">Sync</div><div class="sync-status" id="syncStatus">Local mode. Sign in to sync across devices.</div></div><div class="row"><button id="loginBtn">Sign in with Google</button><button class="secondary hidden" id="syncNowBtn">Sync now</button><button class="secondary hidden" id="logoutBtn">Sign out</button></div></div><div class="section-head no-print"><div><p class="eyebrow">Revision bank</p><h2>Saved revision list</h2><p class="sub">Saved locally first. After Google sign-in, saved entries and syllabus checklist sync across devices.</p></div><div class="row"><button id="printBtn">Download PDF</button><button class="secondary" id="jsonBtn">Download JSON</button><button class="secondary" id="clearSavedBtn">Clear saved</button></div></div><div class="section-body"><div id="history" class="history"></div></div></section>
+  </main>
 </div>
 <script>
 try {
