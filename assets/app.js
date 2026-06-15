@@ -13,15 +13,12 @@ const firebaseConfig = {
 };
 
 const $ = id => document.getElementById(id);
+const clean = value => String(value ?? '').replace(/\s+/g, ' ').trim();
+const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const store = {
-  get(key, fallback) {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-  },
+  get(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
   set(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 };
-const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-const clean = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 
 const sections = [
   ['syllabus', 'Syllabus'],
@@ -31,12 +28,10 @@ const sections = [
   ['reasoning', 'Reasoning'],
   ['computer', 'Computer']
 ];
-
 const englishModes = ['One Word Substitution', 'Idioms', 'Antonyms & Synonyms', 'Spellings', 'Grammar'];
-
 const builtIn = {
   benevolent: { meaning: 'दयालु, परोपकारी', syn: ['kind', 'charitable'], ant: ['cruel', 'selfish'], ex: 'A benevolent officer helped the villagers during the flood.', hi: 'एक दयालु अधिकारी ने बाढ़ के समय ग्रामीणों की मदद की।' },
-  diligent: { meaning: 'मेहनती, परिश्रमी', syn: ['hardworking', 'industrious'], ant: ['lazy', 'careless'], ex: 'A diligent aspirant revises vocabulary every day.', hi: 'एक मेहनती अभ्यर्थी रोज़ शब्दावली दोहराता है।' },
+  diligent: { meaning: 'मेहनती', syn: ['hardworking', 'industrious'], ant: ['lazy', 'careless'], ex: 'A diligent aspirant revises vocabulary every day.', hi: 'एक मेहनती अभ्यर्थी रोज़ शब्दावली दोहराता है।' },
   prudent: { meaning: 'समझदार, विवेकपूर्ण', syn: ['wise', 'careful'], ant: ['careless', 'foolish'], ex: 'A prudent decision can save time in the exam.', hi: 'एक विवेकपूर्ण निर्णय परीक्षा में समय बचा सकता है।' },
   mitigate: { meaning: 'कम करना, घटाना', syn: ['reduce', 'lessen'], ant: ['increase', 'worsen'], ex: 'Regular practice can mitigate exam fear.', hi: 'नियमित अभ्यास परीक्षा के डर को कम कर सकता है।' },
   obsolete: { meaning: 'पुराना, अप्रचलित', syn: ['outdated', 'old-fashioned'], ant: ['modern', 'current'], ex: 'Some obsolete words still appear in vocabulary questions.', hi: 'कुछ अप्रचलित शब्द अभी भी शब्दावली प्रश्नों में आते हैं।' },
@@ -50,6 +45,8 @@ let englishMode = normalizeEnglishMode(store.get('english-mode', 'Antonyms & Syn
 let current = null;
 let auth, db, user, remoteUnsub, syncTimer;
 let applyingRemote = false;
+
+window.addEventListener('DOMContentLoaded', init);
 
 function init() {
   store.set('active-section', active);
@@ -116,15 +113,11 @@ function switchSection(id) {
   id = normalizeSection(id);
   active = id;
   store.set('active-section', id);
-  clearStaleCurrentForSection(id);
+  if (current?.sectionId && current.sectionId !== id) current = null;
   document.querySelectorAll('.section').forEach(section => section.classList.add('hidden'));
   $(id).classList.remove('hidden');
   document.querySelectorAll('#mainNav button').forEach(button => button.classList.remove('active'));
   $('nav-' + id)?.classList.add('active');
-}
-
-function clearStaleCurrentForSection(sectionId) {
-  if (current && current.sectionId && current.sectionId !== sectionId) current = null;
 }
 
 function renderEnglishModes() {
@@ -165,17 +158,20 @@ function setSyllabus(list) { store.set('syllabus', normalizeSyllabus(list)); ren
 
 function normalizeSyllabus(list) {
   const seen = new Set();
-  return (Array.isArray(list) ? list : []).filter(item => item && item.text).map(item => {
-    const now = Date.now();
-    const text = clean(item.text);
-    const created = item.created || item.createdMs || now;
-    return { id: item.id || `${text}-${created}`, text, done: Boolean(item.done), created, updatedMs: item.updatedMs || item.createdMs || created };
-  }).filter(item => {
-    const key = item.text.toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  return (Array.isArray(list) ? list : [])
+    .filter(item => item && item.text)
+    .map(item => {
+      const now = Date.now();
+      const text = clean(item.text);
+      const created = item.created || item.createdMs || now;
+      return { id: item.id || `${text}-${created}`, text, done: Boolean(item.done), created, updatedMs: item.updatedMs || item.createdMs || created };
+    })
+    .filter(item => {
+      const key = item.text.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 
 function removeSyllabus(id) {
@@ -185,10 +181,9 @@ function removeSyllabus(id) {
 
 function renderSyllabus() {
   const list = normalizeSyllabus(store.get('syllabus', []));
-  const box = $('syllabusList');
-  const progress = $('syllabusProgress');
   const done = list.filter(item => item.done).length;
-  progress.textContent = `${done} / ${list.length} completed`;
+  $('syllabusProgress').textContent = `${done} / ${list.length} completed`;
+  const box = $('syllabusList');
   box.innerHTML = '';
   if (!list.length) {
     box.innerHTML = '<div class="empty-state">No syllabus topics added yet.</div>';
@@ -230,7 +225,6 @@ function analysePaste(type) {
 }
 
 function sectionLabel(type) { return { gs: 'General Studies', math: 'Mathematics', reason: 'Reasoning', computer: 'Computer' }[type] || type; }
-
 function detectSubject(type, text) {
   const t = text.toLowerCase();
   if (type === 'math') return 'Mathematics';
@@ -251,14 +245,14 @@ async function generateEnglish() {
   if (!term) return;
   const button = $('generateEnglishBtn');
   button.disabled = true;
-  $('engOut').innerHTML = `<div class="box english-main"><div class="out-title">Generating</div><div class="out">Preparing entry...</div></div>`;
+  $('engOut').innerHTML = '<div class="box english-main"><div class="out">Preparing entry...</div></div>';
   try {
     const data = await buildEnglishEntry(term);
     const body = englishBody(term, data);
     current = { id: crypto.randomUUID(), sectionId: 'english', section: 'English', title: term, body, created: new Date().toLocaleString(), createdMs: Date.now() };
     renderEnglishOutput(term, data);
-  } catch (error) {
-    const data = fallbackEnglishData(term, 'Lookup failed. Refine manually if needed.');
+  } catch {
+    const data = fallbackEnglishData(term);
     const body = englishBody(term, data);
     current = { id: crypto.randomUUID(), sectionId: 'english', section: 'English', title: term, body, created: new Date().toLocaleString(), createdMs: Date.now() };
     renderEnglishOutput(term, data);
@@ -269,7 +263,7 @@ async function generateEnglish() {
 
 async function buildEnglishEntry(term) {
   const key = term.toLowerCase();
-  if (builtIn[key]) return { ...builtIn[key], note: 'Verified built-in entry.' };
+  if (builtIn[key]) return { ...builtIn[key] };
   const [meaning, syn, ant, example] = await Promise.all([
     translateToHindi(term),
     getDatamuseWords(term, 'rel_syn'),
@@ -278,25 +272,17 @@ async function buildEnglishEntry(term) {
   ]);
   const ex = example || defaultExample(term);
   const hi = await translateToHindi(ex);
-  return {
-    meaning: meaning || 'Not found automatically',
-    syn,
-    ant,
-    ex,
-    hi: hi || 'Hindi translation not found automatically',
-    note: meaning || syn.length || ant.length ? 'Review once before final revision.' : 'Limited automatic data found. Review manually.'
-  };
+  return { meaning: meaning || 'Not found automatically', syn, ant, ex, hi: hi || '' };
 }
 
-function fallbackEnglishData(term, note) {
-  return { meaning: 'Not found automatically', syn: [], ant: [], ex: defaultExample(term), hi: 'Hindi translation not found automatically', note };
+function fallbackEnglishData(term) {
+  return { meaning: 'Not found automatically', syn: [], ant: [], ex: defaultExample(term), hi: '' };
 }
 
 async function translateToHindi(text) {
   if (!text) return '';
   try {
-    const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|hi';
-    const response = await fetch(url);
+    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|hi');
     if (!response.ok) return '';
     const json = await response.json();
     return clean(json?.responseData?.translatedText || '');
@@ -305,15 +291,14 @@ async function translateToHindi(text) {
 
 async function getDatamuseWords(term, relation) {
   try {
-    const url = `https://api.datamuse.com/words?${relation}=${encodeURIComponent(term)}&max=12`;
-    const response = await fetch(url);
+    const response = await fetch(`https://api.datamuse.com/words?${relation}=${encodeURIComponent(term)}&max=16`);
     if (!response.ok) return [];
     const json = await response.json();
     return [...new Set((Array.isArray(json) ? json : [])
       .map(item => clean(item.word))
       .filter(Boolean)
       .filter(word => word.toLowerCase() !== term.toLowerCase())
-      .filter(word => word.length > 2)
+      .filter(word => word.length > 3 || word.includes(' '))
       .filter(word => !/^[-'\s]+$/.test(word))
     )].slice(0, 2);
   } catch { return []; }
@@ -325,8 +310,7 @@ async function getDictionaryExample(term) {
     const response = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(term));
     if (!response.ok) return '';
     const json = await response.json();
-    const meanings = json?.[0]?.meanings || [];
-    for (const meaning of meanings) {
+    for (const meaning of (json?.[0]?.meanings || [])) {
       for (const definition of (meaning.definitions || [])) {
         if (definition.example) return clean(definition.example);
       }
@@ -343,25 +327,30 @@ function defaultExample(term) {
   return `${term} is useful for English vocabulary revision.`;
 }
 
+function firstMeaning(meaning) {
+  const first = clean(String(meaning || '').split(/[;,।]/)[0]);
+  return first || 'Not found automatically';
+}
+
 function listText(values) {
-  const cleanValues = (Array.isArray(values) ? values : []).map(clean).filter(Boolean).filter(value => value !== '—');
-  return cleanValues.length ? cleanValues.join(', ') : 'Not available automatically';
+  const valuesClean = (Array.isArray(values) ? values : []).map(clean).filter(Boolean).filter(value => value !== '—');
+  return valuesClean.length ? valuesClean.join(', ') : 'Not available automatically';
 }
 
 function englishBody(term, data) {
-  return `${term} - ${data.meaning}\n\nExample\n${data.ex}\n${data.hi}\n\nSynonym\n${listText(data.syn)}\n\nAntonym\n${listText(data.ant)}\n\nCategory\n${englishMode}`;
+  return `${term} - ${firstMeaning(data.meaning)}\n\n${data.ex}\n\nSynonym - ${listText(data.syn)}\n\nAntonym - ${listText(data.ant)}\n\n${englishMode}`;
 }
 
 function renderEnglishOutput(term, data) {
-  const summary = englishBody(term, data);
+  const body = englishBody(term, data);
   const rows = [
-    ['Hindi meaning', data.meaning],
-    ['Example', `${data.ex}\n${data.hi}`],
+    ['Input', `${term} - ${firstMeaning(data.meaning)}`],
+    ['Example', data.ex],
     ['Synonym', listText(data.syn)],
     ['Antonym', listText(data.ant)],
     ['Category', englishMode]
   ];
-  $('engOut').innerHTML = `<div class="box english-main" style="grid-column:1/-1"><div class="out">${esc(summary)}</div></div>${cards(rows)}`;
+  $('engOut').innerHTML = `<div class="box english-main" style="grid-column:1/-1"><div class="out">${esc(body)}</div></div>${cards(rows)}`;
 }
 
 function cards(rows) {
@@ -369,12 +358,7 @@ function cards(rows) {
 }
 
 function clearEnglish() { $('engInput').value = ''; $('engOut').innerHTML = ''; current = null; }
-
-function activeMatchesCurrent() {
-  if (!current) return false;
-  if (!current.sectionId) return true;
-  return current.sectionId === active;
-}
+function activeMatchesCurrent() { return Boolean(current && (!current.sectionId || current.sectionId === active)); }
 
 function saveCurrent() {
   if (!activeMatchesCurrent()) {
@@ -388,7 +372,6 @@ function saveCurrent() {
 }
 
 function setSaved(items) { store.set('saved', dedupe(items)); renderHistory(); queueSync(); }
-
 function dedupe(items) {
   const map = new Map();
   (Array.isArray(items) ? items : []).forEach(item => {
@@ -418,7 +401,6 @@ function renderHistory() {
 }
 
 function clearSaved() { if (confirm('Clear all saved revision entries?')) setSaved([]); }
-
 function downloadJSON() {
   const payload = JSON.stringify({ saved: store.get('saved', []), syllabus: store.get('syllabus', []) }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
@@ -456,34 +438,20 @@ function initFirebase() {
 }
 
 function userDoc() { return doc(db, 'users', user.uid, 'state', 'main'); }
-
-async function login() {
-  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
-  catch (error) { setSyncStatus('Sign-in failed: ' + (error.code || error.message || error)); }
-}
-
-async function logout() {
-  try { await signOut(auth); }
-  catch (error) { setSyncStatus('Sign-out failed: ' + (error.code || error.message || error)); }
-}
-
+async function login() { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (error) { setSyncStatus('Sign-in failed: ' + (error.code || error.message || error)); } }
+async function logout() { try { await signOut(auth); } catch (error) { setSyncStatus('Sign-out failed: ' + (error.code || error.message || error)); } }
 function updateAuthUI() {
   $('loginBtn').classList.toggle('hidden', Boolean(user));
   $('logoutBtn').classList.toggle('hidden', !user);
   $('syncNowBtn').classList.toggle('hidden', !user);
 }
-
 function setSyncStatus(message) { $('syncStatus').innerHTML = message; }
-
 function queueSync() {
   if (applyingRemote || !user || !db) return;
   clearTimeout(syncTimer);
   syncTimer = setTimeout(() => syncToCloud(false), 700);
 }
-
-function localState() {
-  return { saved: dedupe(store.get('saved', [])), syllabus: normalizeSyllabus(store.get('syllabus', [])) };
-}
+function localState() { return { saved: dedupe(store.get('saved', [])), syllabus: normalizeSyllabus(store.get('syllabus', [])) }; }
 
 async function pullFromCloud(merge = true) {
   if (!user || !db) return;
@@ -518,10 +486,8 @@ function listenCloud() {
 
 function applyRemoteState(remote) {
   applyingRemote = true;
-  const mergedSaved = dedupe([...(store.get('saved', []) || []), ...(remote.saved || [])]);
-  const mergedSyllabus = mergeSyllabus(store.get('syllabus', []), remote.syllabus || []);
-  store.set('saved', mergedSaved);
-  store.set('syllabus', mergedSyllabus);
+  store.set('saved', dedupe([...(store.get('saved', []) || []), ...(remote.saved || [])]));
+  store.set('syllabus', mergeSyllabus(store.get('syllabus', []), remote.syllabus || []));
   renderHistory();
   renderSyllabus();
   applyingRemote = false;
@@ -536,5 +502,3 @@ function mergeSyllabus(local, remote) {
   });
   return normalizeSyllabus([...map.values()]).sort((a, b) => (a.created || 0) - (b.created || 0));
 }
-
-window.addEventListener('DOMContentLoaded', init);
