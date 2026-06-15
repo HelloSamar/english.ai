@@ -1,10 +1,10 @@
 # abhyasam.ai
 
-abhyasam.ai is a study helper for SSC CGL and SSC CHSL preparation.
+A focused revision workspace for government exam aspirants.
 
 ## Current goal
 
-The app is being built as a focused revision workspace for government exam aspirants. It currently has these sections:
+The app is being built as a focused revision workspace. It currently has these sections:
 
 - Syllabus
 - General Studies
@@ -48,7 +48,7 @@ For English entries, the app keeps the existing revision workflow: Hindi meaning
 
 ### Mathematics and Reasoning
 
-Users paste raw content, question text, or notes. The app converts it into cleaner SSC CGL/CHSL revision structure.
+Users paste raw content, question text, or notes. The app converts it into cleaner revision structure.
 
 ### Computer
 
