@@ -1,4 +1,4 @@
-name: Deploy english.ai
+name: Deploy abhyasam.ai
 
 on:
   push:
