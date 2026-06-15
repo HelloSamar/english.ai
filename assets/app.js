@@ -21,8 +21,6 @@ const store = {
   set(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 };
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-const nowText = () => new Date().toLocaleString();
-const nowMs = () => Date.now();
 
 const sections = [
   ['syllabus', 'Syllabus'],
@@ -32,7 +30,6 @@ const sections = [
   ['reasoning', 'Reasoning'],
   ['computer', 'Computer']
 ];
-const validSectionIds = new Set(sections.map(([id]) => id));
 
 const englishModeData = {
   'One Word Substitution': { label: 'One Word Substitution word/phrase', samples: ['philanthropist', 'omniscient', 'bibliophile', 'benevolent'] },
@@ -53,8 +50,8 @@ const builtIn = {
   bibliophile: { meaning: 'पुस्तक प्रेमी', syn: ['book lover', 'reader'], ant: ['nonreader', 'book hater'], ex: 'A bibliophile spends most evenings reading.', hi: 'एक पुस्तक प्रेमी अधिकतर शामें पढ़ने में बिताता है।' }
 };
 
-let active = normalizeSection(store.get('active-section', 'english'));
-let englishMode = englishModeData[store.get('english-mode', 'Antonyms & Synonyms')] ? store.get('english-mode', 'Antonyms & Synonyms') : 'Antonyms & Synonyms';
+let active = store.get('active-section', 'english');
+let englishMode = store.get('english-mode', 'Antonyms & Synonyms');
 let current = null;
 let auth, db, user, remoteUnsub, syncTimer;
 let applyingRemote = false;
@@ -67,7 +64,6 @@ function init() {
   renderSyllabus();
   renderHistory();
   switchSection(active);
-  setTheme(store.get('theme', 'light'));
   initFirebase();
 }
 
@@ -87,8 +83,6 @@ function bindEvents() {
   $('loginBtn').onclick = login;
   $('logoutBtn').onclick = logout;
   $('syncNowBtn').onclick = () => syncToCloud(true);
-  $('syllabusInput').addEventListener('keydown', event => { if (event.key === 'Enter') addSyllabus(); });
-  $('engInput').addEventListener('keydown', event => { if (event.key === 'Enter') generateEnglish(); });
   document.querySelectorAll('[data-analyse]').forEach(button => button.onclick = () => analysePaste(button.dataset.analyse));
 }
 
@@ -99,45 +93,21 @@ function renderNav() {
     const button = document.createElement('button');
     button.textContent = label;
     button.id = 'nav-' + id;
-    button.type = 'button';
     button.onclick = () => switchSection(id);
     nav.appendChild(button);
   });
-  const theme = document.createElement('button');
-  theme.className = 'icon-btn';
-  theme.id = 'themeBtn';
-  theme.type = 'button';
-  theme.onclick = toggleTheme;
-  nav.appendChild(theme);
-}
-
-function normalizeSection(id) {
-  if (id === 'computer-mode') return 'computer';
-  return validSectionIds.has(id) ? id : 'english';
 }
 
 function switchSection(id) {
-  id = normalizeSection(id);
+  if (id === 'computer-mode') id = 'computer';
+  if (!sections.some(section => section[0] === id)) id = 'english';
   active = id;
   store.set('active-section', id);
   document.querySelectorAll('.section').forEach(section => section.classList.add('hidden'));
   $(id).classList.remove('hidden');
-  document.querySelectorAll('#mainNav button:not(.icon-btn)').forEach(button => button.classList.remove('active'));
+  document.querySelectorAll('#mainNav button').forEach(button => button.classList.remove('active'));
   $('nav-' + id)?.classList.add('active');
 }
-
-function setTheme(theme) {
-  theme = theme === 'dark' ? 'dark' : 'light';
-  document.body.dataset.theme = theme;
-  store.set('theme', theme);
-  const button = $('themeBtn');
-  if (button) {
-    button.textContent = theme === 'dark' ? '☾' : '☀';
-    button.title = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
-    button.setAttribute('aria-label', button.title);
-  }
-}
-function toggleTheme() { setTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark'); }
 
 function renderEnglishModes() {
   const box = $('englishModes');
@@ -149,7 +119,6 @@ function renderEnglishModes() {
     chip.onclick = () => {
       englishMode = mode;
       store.set('english-mode', mode);
-      clearEnglish();
       renderEnglishModes();
       renderSamples();
       $('engLabel').textContent = englishModeData[mode].label;
@@ -175,44 +144,35 @@ function addSyllabus() {
   const text = $('syllabusInput').value.trim();
   if (!text) return;
   const list = store.get('syllabus', []);
-  const duplicate = list.some(item => item.text.trim().toLowerCase() === text.toLowerCase());
-  if (duplicate) {
-    setSyncStatus('This syllabus topic is already in your checklist.');
-    return;
-  }
-  list.push({ id: crypto.randomUUID(), text, done: false, created: nowMs(), updatedMs: nowMs() });
+  list.push({ id: crypto.randomUUID(), text, done: false, created: Date.now() });
   setSyllabus(list);
   $('syllabusInput').value = '';
 }
+
 function clearSyllabus() { if (confirm('Clear syllabus list?')) setSyllabus([]); }
+
 function setSyllabus(list) { store.set('syllabus', list); renderSyllabus(); queueSync(); }
+
 function renderSyllabus() {
   const list = store.get('syllabus', []);
-  const done = list.filter(item => item.done).length;
-  $('syllabusProgress').textContent = `${done} / ${list.length} completed`;
   const box = $('syllabusList');
-  box.innerHTML = list.length ? '' : '<div class="empty-state">No syllabus topics added yet.</div>';
-  list.forEach((item, index) => {
+  const progress = $('syllabusProgress');
+  const done = list.filter(item => item.done).length;
+  progress.textContent = `${done} / ${list.length} completed`;
+  box.innerHTML = '';
+  list.forEach((item, i) => {
     const row = document.createElement('div');
     row.className = 'syllabus-row';
     const check = document.createElement('input');
     check.type = 'checkbox';
-    check.checked = !!item.done;
-    const span = document.createElement('span');
-    span.textContent = item.text;
-    const remove = document.createElement('button');
-    remove.type = 'button';
-    remove.className = 'mini-btn no-print';
-    remove.textContent = 'Remove';
-    check.onchange = event => {
-      list[index] = { ...list[index], done: event.target.checked, updatedMs: nowMs() };
+    check.checked = item.done;
+    check.onchange = () => {
+      list[i].done = check.checked;
       setSyllabus(list);
     };
-    remove.onclick = () => {
-      const next = list.filter(existing => existing.id !== item.id);
-      setSyllabus(next);
-    };
-    row.append(check, span, remove);
+    const span = document.createElement('span');
+    span.textContent = item.text;
+    row.append(check, span);
     box.appendChild(row);
   });
 }
@@ -220,21 +180,17 @@ function renderSyllabus() {
 function analysePaste(type) {
   const ids = { gs: 'gsPaste', math: 'mathPaste', reason: 'reasonPaste', computer: 'computerPaste' };
   const outs = { gs: 'gsOut', math: 'mathOut', reason: 'reasonOut', computer: 'computerOut' };
-  const sourceSection = typeToSectionId(type);
   const text = $(ids[type]).value.trim();
-  if (!text) {
-    setSyncStatus('Paste content first, then organise it.');
-    return;
-  }
+  if (!text) return;
   const title = text.split(/[\n.]/)[0].slice(0, 80) || 'Revision note';
   const subject = detectSubject(type, text);
   const body = `Subject - ${title}\n\nSubject: ${subject}\n\nExam perspective:\n- Keep facts, formulas, definitions, and exceptions separately.\n- Convert long paragraphs into bullet points.\n- Mark PYQ/revision-worthy lines.\n\nClean note:\n${text}`;
-  current = { id: crypto.randomUUID(), sourceSection, section: sectionLabel(type), title, body, created: nowText(), createdMs: nowMs() };
+  current = { id: crypto.randomUUID(), section: sectionLabel(type), title, body, created: new Date().toLocaleString(), createdMs: Date.now() };
   $(outs[type]).innerHTML = `<div class="out-title">${esc(current.section)}</div><div class="out">${esc(body)}</div>`;
 }
-function typeToSectionId(type) { return { gs: 'general-studies', math: 'mathematics', reason: 'reasoning', computer: 'computer' }[type] || 'english'; }
+
 function sectionLabel(type) { return { gs: 'General Studies', math: 'Mathematics', reason: 'Reasoning', computer: 'Computer' }[type] || type; }
-function sectionLabelFromId(id) { return sections.find(section => section[0] === id)?.[1] || id; }
+
 function detectSubject(type, text) {
   const t = text.toLowerCase();
   if (type === 'math') return 'Mathematics';
@@ -252,42 +208,38 @@ function detectSubject(type, text) {
 
 function generateEnglish() {
   const term = $('engInput').value.trim();
-  if (!term) {
-    setSyncStatus('Enter an English word, phrase, or topic first.');
-    return;
-  }
+  if (!term) return;
   const key = term.toLowerCase();
   const data = builtIn[key] || { meaning: 'Hindi meaning to be refined later', syn: ['related word 1', 'related word 2'], ant: ['opposite word 1', 'opposite word 2'], ex: `${term} is useful for exam vocabulary revision.`, hi: 'यह परीक्षा शब्दावली पुनरावृत्ति के लिए उपयोगी है।' };
   const body = `Category: ${englishMode}\nHindi Meaning: ${data.meaning}\nSynonyms: ${data.syn.join(', ')}\nAntonyms: ${data.ant.join(', ')}\nExample: ${data.ex}\nExample Hindi: ${data.hi}`;
-  current = { id: `english-${englishMode}-${key}`, sourceSection: 'english', section: 'English', title: term, body, created: nowText(), createdMs: nowMs() };
+  current = { id: crypto.randomUUID(), section: 'English', title: term, body, created: new Date().toLocaleString(), createdMs: Date.now() };
   $('engOut').innerHTML = cards([
     ['Word / Phrase', term], ['Category', englishMode], ['Hindi Meaning', data.meaning],
     ['Synonyms', data.syn.join(', ')], ['Antonyms', data.ant.join(', ')], ['Example', data.ex], ['Example Hindi', data.hi]
   ]);
 }
+
 function cards(rows) { return rows.map(([title, value]) => `<div class="box"><div class="out-title">${esc(title)}</div><div class="out">${esc(value)}</div></div>`).join(''); }
-function clearEnglish() {
-  $('engInput').value = '';
-  $('engOut').innerHTML = '';
-  if (current?.sourceSection === 'english') current = null;
-}
+
+function clearEnglish() { $('engInput').value = ''; $('engOut').innerHTML = ''; current = null; }
 
 function saveCurrent() {
-  if (!current) {
-    setSyncStatus('Nothing to save yet. Generate or organise something first.');
-    return;
-  }
-  if (normalizeSection(current.sourceSection) !== active) {
-    setSyncStatus(`Switch back to ${esc(sectionLabelFromId(current.sourceSection))} to save that generated item.`);
-    return;
-  }
+  if (!current) return;
   const items = store.get('saved', []);
   items.unshift({ ...current, id: current.id || crypto.randomUUID() });
   setSaved(dedupe(items));
-  setSyncStatus('Saved to revision list.');
   current = null;
 }
+
 function setSaved(items) { store.set('saved', items); renderHistory(); queueSync(); }
+
+function deleteItem(id) {
+  if (confirm('Delete this item?')) {
+    const items = store.get('saved', []);
+    setSaved(items.filter(item => item.id !== id));
+  }
+}
+
 function renderHistory() {
   const h = $('history');
   const items = store.get('saved', []);
@@ -295,11 +247,19 @@ function renderHistory() {
   items.forEach(item => {
     const card = document.createElement('div');
     card.className = 'card';
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'card-delete';
+    deleteBtn.textContent = '×';
+    deleteBtn.title = 'Delete item';
+    deleteBtn.onclick = (e) => { e.preventDefault(); deleteItem(item.id); };
     card.innerHTML = `<span class="tag">${esc(item.section)}</span><h3>${esc(item.title)}</h3><div class="small">${esc(item.created || '')}</div><div class="out">${esc(item.body)}</div>`;
+    card.appendChild(deleteBtn);
     h.appendChild(card);
   });
 }
+
 function clearSaved() { if (confirm('Clear saved revision list?')) setSaved([]); }
+
 function downloadJSON() {
   const blob = new Blob([JSON.stringify({ saved: store.get('saved', []), syllabus: store.get('syllabus', []) }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
@@ -308,29 +268,31 @@ function downloadJSON() {
   a.click();
   URL.revokeObjectURL(a.href);
 }
+
 function dedupe(items) {
   const seen = new Set();
   return items.filter(item => {
-    const key = `${item.section || ''}|${item.title || ''}|${item.body || ''}`.toLowerCase().replace(/\s+/g, ' ').trim();
-    const fallback = item.id || key || crypto.randomUUID();
-    item.id = item.id || fallback;
-    const dedupeKey = key || fallback;
-    if (seen.has(dedupeKey)) return false;
-    seen.add(dedupeKey);
+    const id = item.id || `${item.section}-${item.title}-${item.created}`;
+    item.id = id;
+    if (seen.has(id)) return false;
+    seen.add(id);
     return true;
-  }).sort((a, b) => (b.createdMs || 0) - (a.createdMs || 0));
+  });
 }
 
 function setSyncStatus(html) { $('syncStatus').innerHTML = html; }
+
 function localState() { return { saved: store.get('saved', []), syllabus: store.get('syllabus', []) }; }
+
 function applyState(data) {
   applyingRemote = true;
   store.set('saved', dedupe(data.saved || []));
-  store.set('syllabus', mergeSyllabus(store.get('syllabus', []), data.syllabus || []));
+  store.set('syllabus', data.syllabus || []);
   renderHistory();
   renderSyllabus();
   applyingRemote = false;
 }
+
 async function initFirebase() {
   try {
     const app = initializeApp(firebaseConfig);
@@ -338,14 +300,17 @@ async function initFirebase() {
     db = getFirestore(app);
     onAuthStateChanged(auth, handleAuthState);
   } catch (error) {
-    setSyncStatus(`Firebase not ready. Local mode is active. ${esc(error.code || '')}`);
+    setSyncStatus('Firebase not ready. Local mode is active.');
   }
 }
+
 async function login() {
   try { await signInWithPopup(auth, new GoogleAuthProvider()); }
   catch (error) { setSyncStatus(`Sign-in failed: ${esc(error.code || error.message)}`); }
 }
+
 async function logout() { if (auth) await signOut(auth); }
+
 async function handleAuthState(currentUser) {
   user = currentUser;
   if (remoteUnsub) { remoteUnsub(); remoteUnsub = null; }
@@ -367,10 +332,7 @@ async function handleAuthState(currentUser) {
     let merged = local;
     if (snap.exists()) {
       const cloud = snap.data() || {};
-      merged = {
-        saved: dedupe([...(local.saved || []), ...(cloud.saved || [])]),
-        syllabus: mergeSyllabus(local.syllabus || [], cloud.syllabus || [])
-      };
+      merged = { saved: dedupe([...(local.saved || []), ...(cloud.saved || [])]).sort((a, b) => (b.createdMs || 0) - (a.createdMs || 0)), syllabus: mergeSyllabus(local.syllabus || [], cloud.syllabus || []) };
       applyState(merged);
     }
     await setDoc(ref, { ...merged, updatedAt: serverTimestamp() }, { merge: true });
@@ -378,34 +340,29 @@ async function handleAuthState(currentUser) {
       if (applyingRemote || !snapshot.exists()) return;
       applyState(snapshot.data() || {});
       setSyncStatus(`Signed in as <strong>${esc(user.email || 'user')}</strong>. Synced.`);
-    }, error => {
-      setSyncStatus(`Live sync failed: ${esc(error.code || error.message)}`);
     });
     setSyncStatus(`Signed in as <strong>${esc(user.email || 'user')}</strong>. Synced.`);
   } catch (error) {
     setSyncStatus(`Signed in, but sync failed: ${esc(error.code || error.message)}`);
   }
 }
+
 function mergeSyllabus(a, b) {
   const map = new Map();
   [...a, ...b].forEach(item => {
     const id = item.id || item.text;
-    const normalized = { ...item, id, updatedMs: item.updatedMs || item.created || 0 };
-    if (!map.has(id)) {
-      map.set(id, normalized);
-      return;
-    }
-    const existing = map.get(id);
-    const newer = (normalized.updatedMs || 0) >= (existing.updatedMs || 0) ? normalized : existing;
-    map.set(id, { ...existing, ...newer });
+    if (!map.has(id)) map.set(id, { ...item, id });
+    else map.set(id, { ...map.get(id), ...item, done: map.get(id).done || item.done });
   });
-  return [...map.values()].sort((x, y) => (y.created || 0) - (x.created || 0));
+  return [...map.values()];
 }
+
 function queueSync() {
   if (applyingRemote || !user || !db) return;
   clearTimeout(syncTimer);
   syncTimer = setTimeout(() => syncToCloud(false), 700);
 }
+
 async function syncToCloud(manual) {
   if (!user || !db) { if (manual) setSyncStatus('Sign in first to sync.'); return; }
   try {
