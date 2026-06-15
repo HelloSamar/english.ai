@@ -37,11 +37,10 @@
     <div class="results">
       <div class="box"><div class="box-title">Section</div><div class="box-value" id="rMode">-</div></div>
       <div class="box"><div class="box-title">Word / Phrase</div><div class="box-value" id="rTerm">-</div></div>
-      <div class="box"><div class="box-title">Hindi Meaning</div><div class="box-value meaning" id="rMeaning">-</div></div>
-      <div class="box"><div class="box-title">Synonyms (2)</div><div class="box-value" id="rSyn">-</div></div>
-      <div class="box"><div class="box-title">Antonyms (2)</div><div class="box-value" id="rAnt">-</div></div>
-      <div class="box"><div class="box-title">Exam-style Example</div><div class="box-value" id="rEx">-</div></div>
-      <div class="box"><div class="box-title">Example Meaning in Hindi</div><div class="box-value" id="rExHi">-</div></div>
+      <div class="box"><div class="box-title">Meaning</div><div class="box-value meaning" id="rMeaning">-</div></div>
+      <div class="box"><div class="box-title">Synonyms</div><div class="box-value" id="rSyn">-</div></div>
+      <div class="box"><div class="box-title">Antonyms</div><div class="box-value" id="rAnt">-</div></div>
+      <div class="box"><div class="box-title">Example</div><div class="box-value" id="rEx">-</div></div>
     </div>
   </section>
 
@@ -54,16 +53,6 @@
 const KEY='vocab-ai-history-v4';
 let current=null,mode='Antonyms & Synonyms';
 const $=id=>document.getElementById(id);
-const built={
-  diligent:{m:'मेहनती, परिश्रमी',s:['hardworking','industrious'],a:['lazy','careless'],e:'A diligent aspirant revises vocabulary every day.',h:'एक मेहनती अभ्यर्थी प्रतिदिन शब्दावली दोहराता है।'},
-  benevolent:{m:'दयालु, परोपकारी',s:['kind','generous'],a:['cruel','selfish'],e:'The benevolent officer helped the poor villagers.',h:'दयालु अधिकारी ने गरीब ग्रामीणों की सहायता की।'},
-  prudent:{m:'समझदार, विवेकपूर्ण',s:['wise','sensible'],a:['foolish','careless'],e:'A prudent student checks every option before marking the answer.',h:'एक समझदार विद्यार्थी उत्तर चिह्नित करने से पहले हर विकल्प जांचता है।'},
-  obsolete:{m:'पुराना, अप्रचलित',s:['outdated','archaic'],a:['modern','current'],e:'Many obsolete words are rarely used in modern English.',h:'कई अप्रचलित शब्द आधुनिक अंग्रेजी में शायद ही उपयोग होते हैं।'},
-  mitigate:{m:'कम करना, घटाना',s:['reduce','lessen'],a:['aggravate','increase'],e:'Good planning can mitigate exam pressure.',h:'अच्छी योजना परीक्षा के दबाव को कम कर सकती है।'},
-  bibliophile:{m:'पुस्तक प्रेमी',s:['book lover','reader'],a:['nonreader','illiterate'],e:'A bibliophile enjoys collecting useful books.',h:'पुस्तक प्रेमी उपयोगी पुस्तकें इकट्ठा करना पसंद करता है।'},
-  'once in a blue moon':{m:'बहुत कम, कभी-कभार',s:['rarely','seldom'],a:['often','frequently'],e:'He misses vocabulary revision once in a blue moon.',h:'वह शब्दावली का पुनरावृत्ति कार्य बहुत कम छोड़ता है।'},
-  'spill the beans':{m:'राज खोल देना',s:['reveal','disclose'],a:['hide','conceal'],e:'Do not spill the beans before the final result.',h:'अंतिम परिणाम से पहले राज मत खोलो।'}
-};
 function status(t,c=''){let el=$('status');el.textContent=t;el.className='status '+c}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function uniq(a){return[...new Set((a||[]).map(x=>typeof x==='string'?x:x.word).filter(Boolean).map(x=>x.trim().toLowerCase()).filter(Boolean))]}
